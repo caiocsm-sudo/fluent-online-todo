@@ -1,0 +1,29 @@
+.todo-container {
+  width: 70%;
+  height: 25%;
+  padding: 1rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 0 1px #00000033;
+}
+
+.todo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.todo-header > div {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.todo-title {
+  font-size: 1rem;
+}
+
+.todos-list {
+  display: flex;
+  flex-direction: column;
+}

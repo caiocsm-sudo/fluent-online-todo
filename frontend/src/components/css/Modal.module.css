@@ -1,0 +1,16 @@
+.modal-shadow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.modal-container {
+  height: 100%;
+  width: 25%;
+  transform: translateX(-25%);
+  transform: translateY(-25%);
+  margin: auto;
+}

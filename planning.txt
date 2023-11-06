@@ -1,0 +1,39 @@
+1 - Backend = Postgres, Express, Authentication
+2 - Frontend = FluentUI, Typescript, React, Redux?, useContext, Auth, react-cookie
+
+I need to make an authentication system, make not one user, but various users to interact with
+one todo "room". They can be invited through an token and join the team. Just like Trello.
+
+a chat, user comments, realtime collaboration
+
+===================================================================================================
+| 
+| Title | -------------------------------------------------------- | Log In | | Sign In |  Avatar
+|                                                                    (depending on logged user)
+| =================================================================================================
+| 
+|
+|
+| BLANK SPACE
+|
+|
+|
+| =================================================================================================
+|
+|  Todo Title                                              (Options)                 Member icons
+|
+| =================================================================================================
+|
+| TODO TITLE                                PROGRESS BAR          (GET DETAILS) (UPDATE) (DELETE)
+|
+| =================================================================================================
+|
+|
+|
+| BLANK SPACE
+|
+|
+|
+| =================================================================================================
+|                                              FOOTER
+| =================================================================================================
