@@ -1,11 +1,32 @@
+import { useEffect, useState } from "react";
 import styles from "./css/MainPanel.module.css";
 import TodoList from "./TodoList";
+import TodoListInterface from "../utils/TodoListInterface";
+import Modal from './Modal';
 
 import { Avatar, Divider, Button } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
 
+import axios from 'axios';
+
 export const MainPanel = () => {
   // will recieve an image for the todo name
+  const [todos, setTodos] = useState<TodoListInterface[]>([]);
+  const [visible, setVisible] = useState<boolean>(false);
+
+  const getData = async () => {
+    const res = await axios.get("http://localhost:8000/todos");
+
+    setTodos(res.data);
+  }
+
+  useEffect(() => {
+    // getData();
+  }, []);
+
+  const handleAddTodos = () => {
+    setVisible(!visible);
+  };
 
   return (
     <section className={styles["todo-container"]}>
@@ -15,13 +36,23 @@ export const MainPanel = () => {
           <h2 className={styles["todo-title"]}>Minecraft Guerra</h2>
         </div>
         <div className={styles["todo-options"]}>
-          <Button icon={<AddRegular />} />
+          <Button icon={<AddRegular />} onClick={handleAddTodos}/>
         </div>
       </div>
       <Divider />
+      { visible && <Modal mode='create'/> }
       <div className={styles[""]}>
         <ul className={styles["todo-list"]}>
-          <TodoList />
+          { todos && todos.map(todo => {
+            return(
+              <TodoList
+                key={todo.id}
+                title={todo.title}
+                description={todo.description}
+                progress={todo.progress}
+              />
+            );
+          }) }
         </ul>
       </div>
     </section>
