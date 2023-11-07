@@ -2,4 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.7rem;
+  transition: all 200ms ease-in-out;
+}
+
+.list:hover {
+  background-color: #ccc3;
+}
+
+.description-text {
+  color: #666;
 }

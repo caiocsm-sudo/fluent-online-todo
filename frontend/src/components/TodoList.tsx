@@ -9,7 +9,7 @@ export default function TodoList() {
         <Checkbox label={"Checar putas"}></Checkbox>
       </div>
       <div className="description">
-        <span className="description-text">
+        <span className={styles["description-text"]}>
           Tirar a areia de dentro do cavalo
         </span>
       </div>
