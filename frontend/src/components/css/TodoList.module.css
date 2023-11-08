@@ -1,7 +1,7 @@
 .list {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 2fr 2fr 5rem;
   padding: 0.7rem;
   transition: all 200ms ease-in-out;
 }
@@ -12,4 +12,17 @@
 
 .description-text {
   color: #666;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.buttons button {
+  min-width: 0;
+}
+
+.dashed {
+  text-decoration: dashed;
 }

@@ -4,5 +4,6 @@ export default interface TodoListInterface {
   description: string;
   progress: number;
   completed?: boolean;
+  user_email: string;
   date?: string;
 }

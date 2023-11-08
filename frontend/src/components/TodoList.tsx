@@ -1,29 +1,59 @@
-import { Button, Checkbox } from "@fluentui/react-components";
+import { useState } from 'react';
+
+import { Button, Checkbox, Toaster, ToastTitle, useId, useToastController } from "@fluentui/react-components";
 import { DeleteRegular, EditRegular } from "@fluentui/react-icons";
 import Progress from "./Progress";
 import styles from "./css/TodoList.module.css";
 
-export default function TodoList({ title, description, progress }: { title: string, description: string, progress: number}) {
+import axios from 'axios';
+
+export default function TodoList({
+  id,
+  title,
+  description,
+  progress,
+}: {
+  id: string | undefined;
+  title: string;
+  description: string;
+  progress: number;
+}) {
+  const toasterId = useId('toaster');
+  const [dashed, setDashed] = useState<boolean>(false);
+  const { dispatchToast } = useToastController();
+
+  const completeTaskHandler = () => {
+    setDashed(true);
+  }
+
+  const handleDelete = async () => {
+    const result = await axios.delete('http://localhost:8000/' + id);
+    if(result.status === 200) {
+      console.log('yes sir');
+    }
+    console.log(result);
+  }
 
   return (
     <li className={styles.list}>
       <div>
-        <Checkbox label={title || "Test Todo"}></Checkbox>
+        <Checkbox label={title || "Test Todo"} onClick={completeTaskHandler}></Checkbox>
       </div>
       <div className="description">
-        <span className={styles["description-text"]}>
+        <span className={styles[`description-text ${dashed ? 'dashed' : ''}`]}>
           {description || "Test Description"}
         </span>
+        <Progress progress={progress || 50} />
       </div>
-      <Progress progress={progress || 50}/>
-      <div className="buttons">
+      <div className={styles["buttons"]}>
         <Button>
           <EditRegular />
         </Button>
         <Button>
-          <DeleteRegular />
+          <DeleteRegular onClick={handleDelete} />
         </Button>
       </div>
+      <Toaster toasterId={toasterId}/>
     </li>
   );
 }

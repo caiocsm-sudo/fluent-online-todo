@@ -14,14 +14,16 @@ export const MainPanel = () => {
   const [todos, setTodos] = useState<TodoListInterface[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
 
+  const userEmail = 'porracara@gmail.com';
+
   const getData = async () => {
-    const res = await axios.get("http://localhost:8000/todos");
+    const res = await axios.get("http://localhost:8000/todos/" + userEmail);
 
     setTodos(res.data);
   }
 
   useEffect(() => {
-    // getData();
+    getData();
   }, []);
 
   const handleAddTodos = () => {
@@ -40,13 +42,14 @@ export const MainPanel = () => {
         </div>
       </div>
       <Divider />
-      { visible && <Modal mode='create'/> }
-      <div className={styles[""]}>
+      { visible && <Modal mode='create' setVisible={setVisible} getData={getData}/> }
+      <div className={styles["todo-tasks"]}>
         <ul className={styles["todo-list"]}>
           { todos && todos.map(todo => {
             return(
               <TodoList
                 key={todo.id}
+                id={todo.id}
                 title={todo.title}
                 description={todo.description}
                 progress={todo.progress}

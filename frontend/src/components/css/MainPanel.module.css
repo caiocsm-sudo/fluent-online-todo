@@ -1,6 +1,6 @@
 .todo-container {
   width: 70%;
-  height: 25%;
+  min-height: 25%;
   padding: 1rem;
   border-radius: 0.2rem;
   box-shadow: 0 0 0 1px #00000033;
@@ -21,6 +21,10 @@
 
 .todo-title {
   font-size: 1rem;
+}
+
+.todo-tasks {
+  overflow: hidden;
 }
 
 .todos-list {

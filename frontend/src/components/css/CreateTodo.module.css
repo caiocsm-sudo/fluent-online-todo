@@ -1,3 +1,26 @@
 .create-todo {
   padding: 1rem;
+  width: 100%;
+}
+
+.create-todo > form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.create-todo > form > h2 {
+  margin: 0 0 1rem 0;
+}
+
+.create-todo > form > div {
+  width: 100%;
+}
+
+.create-todo > form > div > span {
+  width: 100%;
+}
+
+.create-todo > form > div > label {
+  display: block;
 }
