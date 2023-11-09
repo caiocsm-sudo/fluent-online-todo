@@ -64,6 +64,29 @@ exports.postTodo = async (req, res) => {
   }
 };
 
+exports.editTodo = async (req, res) => {
+  const { title, description, progress } = req.body;
+  const { id } = req.params;
+
+  try {
+    console.table({ id, title, description, progress });
+    const edited = await pool.query(
+      "UPDATE todo SET title = $1, description = $2, progress = $3 WHERE id = $4 RETURNING *",
+      [title, description, progress, id]
+    );
+
+    res.json({
+      status: "success",
+      data: edited.rows,
+    });
+  } catch (error) {
+    res.json({
+      status: "fail",
+      detail: error,
+    });
+  }
+};
+
 exports.deleteTodo = async (req, res) => {
   const { id } = req.params;
 
