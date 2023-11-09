@@ -2,6 +2,7 @@ import styles from "./css/Modal.module.css";
 import CreateTodo from "./CreateTodo";
 import { Button } from "@fluentui/react-components";
 import TodoListInterface from "../utils/TodoListInterface";
+// import TodoListInterface from "../utils/TodoListInterface";
 
 const CloseIcon = () => (
   <svg
@@ -18,10 +19,12 @@ export default function Modal({
   mode,
   setVisible,
   getData,
+  todo
 }: {
   mode: "create" | "edit";
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  getData: React.Dispatch<React.SetStateAction<TodoListInterface[]>>;
+  getData: () => Promise<void>;
+  todo: TodoListInterface
 }) {
   return (
     <div className={styles["modal-shadow"]}>
@@ -32,7 +35,7 @@ export default function Modal({
           onClick={() => setVisible(false)}
         />
         {/* Will recieve a form for each option -> create todo, login, signup */}
-        <CreateTodo mode={mode} getData={getData} setVisible={setVisible} />
+        <CreateTodo mode={mode} getData={getData} setVisible={setVisible} todo={todo} />
       </div>
     </div>
   );

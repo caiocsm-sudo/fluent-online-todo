@@ -58,6 +58,7 @@ export const MainPanel = () => {
                 title={todo.title}
                 description={todo.description}
                 progress={todo.progress}
+                todo={todo}
                 getData={getData}
               />
             );
