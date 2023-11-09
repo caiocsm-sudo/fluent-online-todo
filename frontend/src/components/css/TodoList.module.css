@@ -1,9 +1,15 @@
 .list {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 2fr 2fr 5rem;
+  grid-template-columns: 1fr 1fr 0.5fr 0.5fr;
   padding: 0.7rem;
+  gap: 0.7rem;
   transition: all 200ms ease-in-out;
+}
+
+.list > * {
+  display: inherit;
+  align-items: center;
 }
 
 .list:hover {
@@ -17,6 +23,7 @@
 .buttons {
   display: flex;
   gap: 0.3rem;
+  justify-content: end;
 }
 
 .buttons button {

@@ -1,0 +1,12 @@
+.outer-progress {
+  height: 10%;
+  border-radius: 0.7rem;
+  width: 100%;
+  background-color: #ccc;
+}
+
+.inner-progress {
+  border-radius: inherit;
+  background-color: #0f6cbd;
+  height: 100%;
+}
