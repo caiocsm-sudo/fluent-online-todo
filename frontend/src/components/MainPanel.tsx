@@ -10,8 +10,8 @@ import { AddRegular } from "@fluentui/react-icons";
 import axios from 'axios';
 
 export const MainPanel = () => {
-  // will recieve an image for the todo name
-  const [todos, setTodos] = useState<TodoListInterface[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [todos, setTodos] = useState<TodoListInterface[] | Array<any> >([]);
   const [visible, setVisible] = useState<boolean>(false);
 
   const userEmail = 'porracara@gmail.com';
@@ -19,7 +19,12 @@ export const MainPanel = () => {
   const getData = async () => {
     const res = await axios.get("http://localhost:8000/todos/" + userEmail);
 
-    setTodos(res.data);
+    if(Array.isArray(res.data.data)) {
+      const data = res.data.data;
+      setTodos(data);
+    } else {
+      setTodos([]);
+    }
   }
 
   useEffect(() => {
@@ -53,6 +58,7 @@ export const MainPanel = () => {
                 title={todo.title}
                 description={todo.description}
                 progress={todo.progress}
+                getData={getData}
               />
             );
           }) }
