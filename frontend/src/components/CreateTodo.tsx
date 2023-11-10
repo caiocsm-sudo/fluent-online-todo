@@ -62,9 +62,9 @@ export default function CreateTodo({
     e.preventDefault();
 
     try {
-      console.log({ title, description, progress });
+      const edited: object = { title, description, progress };
 
-      const result = await axios.patch("http://localhost:8000/todos/" + todo?.id, { title, description, progress });
+      const result = await axios.patch("http://localhost:8000/todos/" + todo?.id, edited);
 
       if (result.status === 200) {
         console.log('success');

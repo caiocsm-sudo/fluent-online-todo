@@ -1,0 +1,37 @@
+.login-form {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 0 5px #0002;
+  border: 1px solid #cacfef;
+}
+
+.login-form > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.conventional-login > button {
+  width: 100%;
+}
+
+.login-form > form label {
+  display: block;
+}
+
+.login-form > form h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.oauth-options {
+  margin-top: 1rem;
+
+}
+
+.oauth-options > div > h4 {
+  font-weight: 300;
+  font-size: 1rem;
+  text-align: center;
+}
