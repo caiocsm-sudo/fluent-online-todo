@@ -22,7 +22,12 @@ class User {
     this.checkErrors();
     if (this.errors.length > 0) return;
 
-    const result = await pool.query("INSERT INTO users");
+    const data = await pool.query("INSERT INTO users");
+
+    const result = await pool.query(
+      `INSERT INTO users (id, username, user_email, password) VALUEs ($1, $2, $3, $4)`,
+      [id, title, description, progress, completed, user_email, date]
+    );
   }
 
   encryptPassword() {
