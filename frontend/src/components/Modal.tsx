@@ -2,7 +2,10 @@ import styles from "./css/Modal.module.css";
 import CreateTodo from "./CreateTodo";
 import { Button } from "@fluentui/react-components";
 import TodoListInterface from "../utils/TodoListInterface";
+import { useContext } from "react";
 // import TodoListInterface from "../utils/TodoListInterface";
+
+import { StateUpdatersContext } from './MainPanel';
 
 const CloseIcon = () => (
   <svg
@@ -17,15 +20,13 @@ const CloseIcon = () => (
 
 export default function Modal({
   mode,
-  setVisible,
-  getData,
   todo
 }: {
   mode: "create" | "edit";
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  getData: () => Promise<void>;
   todo: TodoListInterface
 }) {
+  const { setVisible, getData } = useContext(StateUpdatersContext);
+
   return (
     <div className={styles["modal-shadow"]}>
       <div className={styles["modal-container"]}>
