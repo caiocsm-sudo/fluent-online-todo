@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const pool = require("../database/db");
+const { uuidv4 } = require(uuidv4);
 
 class User {
   constructor(username, user_email, password) {
@@ -22,11 +23,13 @@ class User {
     this.checkErrors();
     if (this.errors.length > 0) return;
 
-    const data = await pool.query("INSERT INTO users");
+    this.encryptPassword();
+
+    // const data = await pool.query("INSERT INTO users");
 
     const result = await pool.query(
       `INSERT INTO users (id, username, user_email, password) VALUEs ($1, $2, $3, $4)`,
-      [id, title, description, progress, completed, user_email, date]
+      [id, this.username, this.user_email, this.password]
     );
   }
 

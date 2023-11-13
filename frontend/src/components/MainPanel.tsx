@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   useEffect,
   useState,
@@ -15,16 +17,15 @@ import { AddRegular } from "@fluentui/react-icons";
 
 import axios from "axios";
 
-type Context = {
+interface Context {
   todos: TodoListInterface[] | Array<never>;
   getData: () => Promise<void>;
   setVisible: Dispatch<SetStateAction<boolean>>;
 };
 
-const StateUpdatersContext = createContext<Context | undefined>(undefined);
+const StateUpdatersContext = createContext<Context | undefined | any>(undefined);
 
 export const MainPanel = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [todos, setTodos] = useState<TodoListInterface[] | Array<any>>([]);
   const [visible, setVisible] = useState<boolean>(false);
 
