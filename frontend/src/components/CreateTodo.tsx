@@ -19,6 +19,8 @@ export default function CreateTodo({
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   todo?: TodoListInterface;
 }) {
+
+  // Provided by Redux
   const userEmail = "porracara@gmail.com";
 
   const [title, setTitle] = useState<any>(mode === "edit" ? todo?.title : "");

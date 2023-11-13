@@ -1,9 +1,10 @@
 import { useContext, Dispatch, SetStateAction } from "react";
-import styles from "./css/Modal.module.css";
+
 import CreateTodo from "./CreateTodo";
-import { Button } from "@fluentui/react-components";
 import TodoListInterface from "../utils/TodoListInterface";
-// import TodoListInterface from "../utils/TodoListInterface";
+
+import { Button } from "@fluentui/react-components";
+import styles from "./css/Modal.module.css";
 
 import { StateUpdatersContext } from "./MainPanel";
 
