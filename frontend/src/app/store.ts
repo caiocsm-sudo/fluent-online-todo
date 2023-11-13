@@ -1,11 +1,8 @@
-type UserInitState = {
-  user: string,
-  isLogged: boolean
-};
+import { configureStore } from "@reduxjs/toolkit";
 
-const initialState: UserInitState = {
-  user: '',
-  isLogged: false
-}
+export const store = configureStore({
+  reducer: {
+    user: userReducer,
+  },
+});
 
-console.log(initialState);
