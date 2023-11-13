@@ -4,25 +4,18 @@ import {
   useEffect,
   useState,
   createContext,
-  Dispatch,
-  SetStateAction,
 } from "react";
-import styles from "./css/MainPanel.module.css";
+
 import TodoList from "./TodoList";
-import TodoListInterface from "../utils/TodoListInterface";
 import Modal from "./Modal";
+import TodoListInterface from "../utils/TodoListInterface";
+import { Context } from "../utils/Context";
 
 import { Avatar, Divider, Button } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
+import styles from "./css/MainPanel.module.css";
 
 import axios from "axios";
-
-interface Context {
-  todos: TodoListInterface[] | Array<never>;
-  getData: () => Promise<void>;
-  visible: boolean;
-  setVisible: Dispatch<SetStateAction<boolean>>;
-}
 
 const StateUpdatersContext = createContext<Context | undefined | any>(
   undefined
