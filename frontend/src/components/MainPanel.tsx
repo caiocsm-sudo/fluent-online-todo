@@ -20,10 +20,13 @@ import axios from "axios";
 interface Context {
   todos: TodoListInterface[] | Array<never>;
   getData: () => Promise<void>;
+  visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
-};
+}
 
-const StateUpdatersContext = createContext<Context | undefined | any>(undefined);
+const StateUpdatersContext = createContext<Context | undefined | any>(
+  undefined
+);
 
 export const MainPanel = () => {
   const [todos, setTodos] = useState<TodoListInterface[] | Array<any>>([]);
@@ -63,7 +66,8 @@ export const MainPanel = () => {
       </div>
       <Divider />
 
-      <StateUpdatersContext.Provider value={{ todos, getData, setVisible }}>
+      {/* Context -> Todos, getData, setVisible */}
+      <StateUpdatersContext.Provider value={{ todos, getData, setVisible, visible }}>
         {visible && <Modal mode="create" />}
         <div className={styles["todo-tasks"]}>
           <ul className={styles["todo-list"]}>
@@ -77,7 +81,6 @@ export const MainPanel = () => {
                     description={todo.description}
                     progress={todo.progress}
                     todo={todo}
-                    getData={getData}
                   />
                 );
               })}

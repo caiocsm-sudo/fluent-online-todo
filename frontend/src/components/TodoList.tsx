@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { Button, Checkbox } from "@fluentui/react-components";
 
@@ -10,6 +10,7 @@ import styles from "./css/TodoList.module.css";
 
 import axios from "axios";
 import TodoListInterface from "../utils/TodoListInterface";
+import { StateUpdatersContext } from "./MainPanel";
 
 export default function TodoList({
   id,
@@ -17,16 +18,16 @@ export default function TodoList({
   description,
   progress,
   todo,
-  getData,
 }: {
   id: string | undefined;
   title: string;
   description: string;
   progress: number;
   todo: TodoListInterface;
-  getData: () => Promise<void>;
 }) {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const { getData } = useContext(StateUpdatersContext);
 
   const handleDelete = async () => {
     const result = await axios.delete("http://localhost:8000/todos/" + id);
@@ -67,8 +68,7 @@ export default function TodoList({
       {modalVisible && (
         <Modal
           mode="edit"
-          setVisible={setModalVisible}
-          getData={getData}
+          setModalVisible={setModalVisible}
           todo={todo}
         />
       )}

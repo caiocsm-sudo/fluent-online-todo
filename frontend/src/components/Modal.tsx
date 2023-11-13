@@ -1,11 +1,11 @@
+import { useContext, Dispatch, SetStateAction } from "react";
 import styles from "./css/Modal.module.css";
 import CreateTodo from "./CreateTodo";
 import { Button } from "@fluentui/react-components";
 import TodoListInterface from "../utils/TodoListInterface";
-import { useContext } from "react";
 // import TodoListInterface from "../utils/TodoListInterface";
 
-import { StateUpdatersContext } from './MainPanel';
+import { StateUpdatersContext } from "./MainPanel";
 
 const CloseIcon = () => (
   <svg
@@ -20,12 +20,14 @@ const CloseIcon = () => (
 
 export default function Modal({
   mode,
-  todo
+  todo,
+  setModalVisible,
 }: {
   mode: "create" | "edit";
-  todo: TodoListInterface
+  todo: TodoListInterface;
+  setModalVisible: Dispatch<SetStateAction<boolean>>;
 }) {
-  const { setVisible, getData } = useContext(StateUpdatersContext);
+  const { getData, setVisible } = useContext(StateUpdatersContext);
 
   return (
     <div className={styles["modal-shadow"]}>
@@ -33,10 +35,17 @@ export default function Modal({
         <Button
           className={styles["close-button"]}
           icon={<CloseIcon />}
-          onClick={() => setVisible(false)}
+          onClick={() =>
+            mode === "create" ? setVisible(false) : setModalVisible(false)
+          }
         />
         {/* Will recieve a form for each option -> create todo, login, signup */}
-        <CreateTodo mode={mode} getData={getData} setVisible={setVisible} todo={todo} />
+        <CreateTodo
+          mode={mode}
+          getData={getData}
+          setVisible={setModalVisible}
+          todo={todo}
+        />
       </div>
     </div>
   );
