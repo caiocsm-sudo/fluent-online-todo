@@ -17,20 +17,19 @@ class User {
     this.checkErrors();
     if (this.errors.length > 0) return;
 
-    const user = this.checkEmail('login');
+    const user = this.checkEmail("login");
 
     if (!user) {
       this.errors.push("Incorrect email and/or password");
       return;
     }
 
-    
-
+    // still to implement
   }
 
   async register() {
     this.checkErrors();
-    const emailExist = this.checkEmail('register');
+    const emailExist = this.checkEmail("register");
 
     if (emailExist) {
       this.errors.push("This email is already registered");
@@ -50,6 +49,7 @@ class User {
         `INSERT INTO users (id, username, user_email, password) VALUEs ($1, $2, $3, $4)`,
         [this.id, this.username, this.user_email, this.password]
       );
+      return result.rows;
     }
   }
 
@@ -77,7 +77,7 @@ class User {
       "SELECT * FROM users WHERE user_email = $1"[this.user_email]
     );
 
-    if (caller === 'register') {
+    if (caller === "register") {
       return result ? true : false;
     } else {
       return result;
