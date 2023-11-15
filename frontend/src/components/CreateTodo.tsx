@@ -41,7 +41,7 @@ export default function CreateTodo({
       progress: progress,
       completed: false,
       user_email: userEmail,
-      date: `${Date.now()}`,
+      date: `${Date.toString()}`,
     };
 
     if (!title || !progress || !description) return;
