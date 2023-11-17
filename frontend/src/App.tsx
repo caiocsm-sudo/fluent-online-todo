@@ -4,7 +4,7 @@ import Header from "./partials/Header";
 import { MainPanel } from "./components/MainPanel";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Authentication from "./pages/Login";
+import Authentication from "./pages/Auth/Auth";
 
 const App: React.FC = () => {
   return (
