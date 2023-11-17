@@ -16,4 +16,8 @@ router
   .patch(todoController.editTodo)
   .delete(todoController.deleteTodo);
 
+router
+  .route("/user/register")
+  .post(todoController.registerUser);
+
 module.exports = router;

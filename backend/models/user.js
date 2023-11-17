@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const pool = require("../database/db");
+const jsonwebtoken = require("jsonwebtoken");
 const { uuidv4 } = require(uuidv4);
 
 class User {
@@ -49,8 +50,13 @@ class User {
         `INSERT INTO users (id, username, user_email, password) VALUEs ($1, $2, $3, $4)`,
         [this.id, this.username, this.user_email, this.password]
       );
-      return result.rows;
+      return { result: result.rows, token };
     }
+  }
+
+  async addProfileImage() {
+    // TODO: You cannot create a user and already set the image
+    // you need to create your user first, then you change the image;
   }
 
   encryptPassword() {
@@ -74,7 +80,8 @@ class User {
 
   async checkEmail(caller) {
     const result = await pool.query(
-      "SELECT * FROM users WHERE user_email = $1"[this.user_email]
+      "SELECT * FROM users WHERE user_email = $1",
+      [this.user_email]
     );
 
     if (caller === "register") {

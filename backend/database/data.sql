@@ -12,5 +12,6 @@ CREATE TABLE users (
   id VARCHAR(255) PRIMARY KEY NOT NULL,
   username VARCHAR(255) NOT NULL,
   user_email VARCHAR(255) NOT NULL,
+  user_image bytea,
   password VARCHAR(255) NOT NULL
 );

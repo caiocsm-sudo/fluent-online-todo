@@ -1,7 +1,8 @@
 const User = require("../models/user");
-const jsonwebtoken = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-exports.createUser = async (req, res) => {
+exports.registerUser = async (req, res) => {
   let [username, user_email, password] = [
     req.body.username,
     req.body.user_email,
@@ -13,10 +14,15 @@ exports.createUser = async (req, res) => {
 
     const result = user.register();
 
-    res.json({
-      status: "success",
-      data: result,
-    });
+    if (result) {
+      const accessToken = jwt.sign(username, process.env.TOKEN_SECRET);
+      // not with the third parameter, which is an object that can contain an expiring time;
+
+      res.json({
+        status: "success",
+        data: { result, accessToken },
+      });
+    }
   } catch (error) {
     res.json({
       status: "fail",
@@ -24,3 +30,5 @@ exports.createUser = async (req, res) => {
     });
   }
 };
+
+exports.logInUser = async (req, res) => {};
