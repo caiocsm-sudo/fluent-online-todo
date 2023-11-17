@@ -37,3 +37,8 @@ a chat, user comments, realtime collaboration
 | =================================================================================================
 |                                              FOOTER
 | =================================================================================================
+
+
+TODOS: Redux problems with userSlice, JWT and Cookies, Registering the user, Log in the user, Log out the user;
+LATER_TODOS: Extend the application to handle realtime collaboration with many members, such as inviting, admin, removing user and etc;
+LATER_THAN_LATER: UI COMPLETE REDESIGN WITH FLUENT
