@@ -1,8 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './rootReducer';
 
-export const store = configureStore({ 
-  user: undefined,
-  reducer: () => {
-    console.log('internal pointer variable');
-  }
- });
+import logger from 'redux-logger';
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [logger]
+});
+
+export default store;
