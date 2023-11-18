@@ -5,14 +5,22 @@ require("dotenv").config();
 exports.registerUser = async (req, res) => {
   let [username, user_email, password] = [
     req.body.username,
-    req.body.user_email,
+    req.body.email,
     req.body.password,
   ];
 
   try {
+    console.table({ username, user_email, password });
+
     const user = new User(username, user_email, password);
 
     const result = user.register();
+
+    if (user.errors.length >= 1) {
+      res.json({
+        error: [...user.errors],
+      });
+    }
 
     if (result) {
       const accessToken = jwt.sign(username, process.env.TOKEN_SECRET);

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const todoController = require("./controllers/todoController.js");
+const userController = require('./controllers/userController.js');
 
 router
   .route("/todos")
@@ -18,6 +19,6 @@ router
 
 router
   .route("/user/register")
-  .post(todoController.registerUser);
+  .post(userController.registerUser);
 
 module.exports = router;

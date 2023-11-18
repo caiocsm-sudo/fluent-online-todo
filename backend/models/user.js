@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const pool = require("../database/db");
-const jsonwebtoken = require("jsonwebtoken");
-const { uuidv4 } = require(uuidv4);
+const { v4: uuidv4 } = require('uuid');
 
 class User {
   constructor(username, user_email, password) {
@@ -37,13 +36,12 @@ class User {
       return;
     }
 
-    // Everything gone right
-
     if (this.errors.length > 0) return;
 
     this.encryptPassword();
 
-    this.id = uuidv4();
+    // uuidv4 generating a random key for the id;
+    this.id = v4();
 
     if (this.id) {
       const result = await pool.query(
