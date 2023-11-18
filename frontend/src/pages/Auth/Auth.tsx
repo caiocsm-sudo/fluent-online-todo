@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { Button, Divider } from "@fluentui/react-components";
 import styles from "./css/Login.module.css";
 
@@ -13,7 +13,7 @@ import axios from "axios";
 import Login from "./login/Login";
 import Register from "./register/Register";
 
-const Authentication: React.FC = () => {
+const Authentication: FC = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -26,7 +26,10 @@ const Authentication: React.FC = () => {
     endpoint: "login" | "register",
     body: UserLogin | UserRegister
   ) => {
-    const result = await axios.post(`http://localhost:8000/${endpoint}`, body);
+    const result = await axios.post(
+      `http://localhost:8000/user/${endpoint}`,
+      body
+    );
     return result;
   };
 
