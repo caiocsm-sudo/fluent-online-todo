@@ -20,7 +20,7 @@ const Authentication: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const { cookies, setCookies } = useCookies();
+  const { _, setCookies } = useCookies();
 
   const { mode } = useParams();
 
@@ -34,6 +34,8 @@ const Authentication: FC = () => {
       `http://localhost:8000/user/${endpoint}`,
       body
     );
+
+    console.log(result.statusText);
 
     if (result.data.status === 'success') {
       setCookies('Token', result.data.token);

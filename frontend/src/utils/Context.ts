@@ -7,4 +7,6 @@ export interface Context {
   getData: () => Promise<void>;
   visible: boolean;
   setVisible: Dispatch<SetStateAction<boolean>>;
+  mode: string;
+  setMode: Dispatch<SetStateAction<string>>
 }
