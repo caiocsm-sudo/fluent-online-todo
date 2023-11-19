@@ -7,7 +7,7 @@ const initialState: User = {
   user_email: null,
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
@@ -27,4 +27,4 @@ const userSlice = createSlice({
 
 export const { addUser } = userSlice.actions;
 
-export default userSlice.reducers;
+export default userSlice.reducer;
