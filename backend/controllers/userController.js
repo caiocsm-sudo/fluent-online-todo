@@ -20,9 +20,7 @@ exports.registerUser = async (req, res) => {
       res.json({
         error: [...user.errors],
       });
-    }
-
-    if (result) {
+    } else {
       const accessToken = jwt.sign(username, process.env.TOKEN_SECRET);
       // not with the third parameter, which is an object that can contain an expiring time;
 

@@ -29,6 +29,9 @@ class User {
 
   async register() {
     this.checkErrors();
+
+    console.log(this.user_email);
+
     const emailExist = this.checkEmail("register");
 
     if (emailExist) {
@@ -55,6 +58,10 @@ class User {
   async addProfileImage() {
     // TODO: You cannot create a user and already set the image
     // you need to create your user first, then you change the image;
+  }
+
+  async checkPassword() {
+
   }
 
   encryptPassword() {
