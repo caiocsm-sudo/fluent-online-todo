@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseSyntheticEvent, useState, useContext } from "react";
 
-// import TodoList from "../utils/TodoListInterface";
+import TodoListInterface from "../utils/TodoListInterface";
+
 import styles from "./css/CreateTodo.module.css";
 import { Label, Input, Button, Slider } from "@fluentui/react-components";
 
-import axios from "axios";
-import TodoListInterface from "../utils/TodoListInterface";
-
 import { StateUpdatersContext } from "./MainPanel";
+
+import axios from "axios";
 
 export default function CreateTodo({
   mode,
@@ -19,7 +19,6 @@ export default function CreateTodo({
   getData: () => Promise<void>;
   todo?: TodoListInterface;
 }) {
-
   const { setVisible } = useContext(StateUpdatersContext);
 
   // Provided by Redux
