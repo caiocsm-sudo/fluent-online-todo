@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent, useState, useContext } from "react";
 
 // import TodoList from "../utils/TodoListInterface";
 import styles from "./css/CreateTodo.module.css";
@@ -8,17 +8,19 @@ import { Label, Input, Button, Slider } from "@fluentui/react-components";
 import axios from "axios";
 import TodoListInterface from "../utils/TodoListInterface";
 
+import { StateUpdatersContext } from "./MainPanel";
+
 export default function CreateTodo({
   mode,
   getData,
-  setVisible,
   todo,
 }: {
   mode: "create" | "edit";
   getData: () => Promise<void>;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   todo?: TodoListInterface;
 }) {
+
+  const { setVisible } = useContext(StateUpdatersContext);
 
   // Provided by Redux
   const userEmail = "porracara@gmail.com";
@@ -46,11 +48,11 @@ export default function CreateTodo({
 
     if (!title || !progress || !description) return;
 
-    console.log("chegou");
-
     const data = await axios.post("http://localhost:8000/todos", todo);
 
-    if (data.data.status === "success") {
+    console.log("chegou");
+
+    if (data.status === 200) {
       getData();
       setVisible(false);
     }

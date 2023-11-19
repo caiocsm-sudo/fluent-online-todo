@@ -44,7 +44,6 @@ export default function Modal({
         <CreateTodo
           mode={mode}
           getData={getData}
-          setVisible={setModalVisible}
           todo={todo}
         />
       </div>

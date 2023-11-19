@@ -48,7 +48,7 @@ class User {
         `INSERT INTO users (id, username, user_email, password) VALUEs ($1, $2, $3, $4)`,
         [this.id, this.username, this.user_email, this.password]
       );
-      return { result: result.rows, token };
+      return result.rows;
     }
   }
 

@@ -10,6 +10,8 @@ type UserRegister = { username: string; email: string; password: string };
 
 import axios from "axios";
 
+import { useCookies } from "react-cookie";
+
 import Login from "./login/Login";
 import Register from "./register/Register";
 
@@ -17,6 +19,8 @@ const Authentication: FC = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const { cookies, setCookies } = useCookies();
 
   const { mode } = useParams();
 
@@ -30,6 +34,11 @@ const Authentication: FC = () => {
       `http://localhost:8000/user/${endpoint}`,
       body
     );
+
+    if (result.data.status === 'success') {
+      setCookies('Token', result.data.token);
+    }
+
     return result;
   };
 
