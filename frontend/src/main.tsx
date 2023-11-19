@@ -6,7 +6,7 @@ import "./index.css";
 import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 
 import { Provider } from "react-redux";
-import store from "./app/store";
+import { store } from "./app/store";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
