@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 
 import Header from "./partials/Header";
 import { MainPanel } from "./components/MainPanel";
@@ -6,7 +6,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Authentication from "./pages/Auth/Auth";
 
-const App: React.FC = () => {
+// later implementation of a page for non-logged users;
+// import { useSelector } from "react-redux";
+
+const App: FC = () => {
   return (
     <Router>
       <div className="application">
