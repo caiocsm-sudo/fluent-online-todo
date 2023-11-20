@@ -37,4 +37,19 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.logInUser = async (req, res) => {};
+exports.logInUser = async (req, res) => {
+  const { user_email, password } = req.body;
+
+  try {
+    const user = new User(user_email, password);
+
+    const loggedUser = await user.login();
+
+    console.log(loggedUser);
+  } catch (error) {
+    res.json({
+      status: 'fail',
+      detail: error,
+    });
+  }
+};

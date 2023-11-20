@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const pool = require("../database/db");
-const { v4: uuidv4 } = require('uuid');
+const uuid = require("uuid");
+// não é possivel que essa porra instalada não ta funcionando, né
 
 class User {
   constructor(username, user_email, password) {
@@ -19,22 +20,29 @@ class User {
 
     const user = this.checkEmail("login");
 
-    if (!user) {
+    const isPasswordCorrect = this.checkPassword();
+
+    if (!user || isPasswordCorrect) {
       this.errors.push("Incorrect email and/or password");
       return;
     }
 
-    // still to implement
+    const loggedUser = await pool.query(
+      "SELECT * FROM users WHERE user_email = $1",
+      [this.user_email]
+    );
+
+    return loggedUser.rows;
   }
 
   async register() {
     this.checkErrors();
 
-    console.log(this.user_email);
+    const emailExist = await this.checkEmail("register");
 
-    const emailExist = this.checkEmail("register");
+    console.log(emailExist.rows);
 
-    if (emailExist) {
+    if (emailExist.rows[0].user_email) {
       this.errors.push("This email is already registered");
       return;
     }
@@ -44,14 +52,17 @@ class User {
     this.encryptPassword();
 
     // uuidv4 generating a random key for the id;
-    this.id = v4();
+    this.id = uuid.v4();
 
     if (this.id) {
       const result = await pool.query(
         `INSERT INTO users (id, username, user_email, password) VALUEs ($1, $2, $3, $4)`,
         [this.id, this.username, this.user_email, this.password]
       );
-      return result.rows;
+
+      console.log(result);
+
+      return result;
     }
   }
 
@@ -61,7 +72,17 @@ class User {
   }
 
   async checkPassword() {
+    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
+      this.user_email,
+    ]);
 
+    console.log(user.rows);
+
+    const isPasswordCorrect = await bcrypt.compare(
+      this.password,
+      user.rows[0].password
+    );
+    return isPasswordCorrect;
   }
 
   encryptPassword() {
@@ -83,17 +104,13 @@ class User {
     }
   }
 
-  async checkEmail(caller) {
+  async checkEmail() {
     const result = await pool.query(
       "SELECT * FROM users WHERE user_email = $1",
       [this.user_email]
     );
 
-    if (caller === "register") {
-      return result ? true : false;
-    } else {
-      return result;
-    }
+    return result;
   }
 }
 
