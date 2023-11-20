@@ -17,8 +17,14 @@ router
   .patch(todoController.editTodo)
   .delete(todoController.deleteTodo);
 
+// Authentication routes
+
 router
   .route("/user/register")
   .post(userController.registerUser);
+
+router
+  .route('/user/login')
+  .post(userController.logInUser);
 
 module.exports = router;
