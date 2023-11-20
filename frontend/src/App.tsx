@@ -6,9 +6,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Authentication from "./pages/Auth/Auth";
 
-// later implementation of a page for non-logged users;
-// import { useSelector } from "react-redux";
-
 const App: FC = () => {
   return (
     <Router>

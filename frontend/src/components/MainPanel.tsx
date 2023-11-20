@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState } from "react";
 
 import { Avatar, Divider, Button } from "@fluentui/react-components";
 import { AddRegular } from "@fluentui/react-icons";
@@ -9,18 +9,12 @@ import styles from "./css/MainPanel.module.css";
 import TodoList from "./TodoList";
 import Modal from "./Modal";
 import TodoListInterface from "../utils/TodoListInterface";
-import { Context } from "../utils/Context";
+import { StateUpdatersContext } from '../utils/Context';
 
 // only imported because of getData function
 import axios from "axios";
 
-// Why is it undefined? Don't remember
-const StateUpdatersContext = createContext<Context | undefined | any>(
-  undefined
-);
-
 export const MainPanel = () => {
-
   // higher level of abstraction = make it global with useContext instead of Redux
   // at least, i think it's better for this type of data.
 
@@ -34,9 +28,6 @@ export const MainPanel = () => {
   const userEmail = "porracara@gmail.com";
 
   const getData = async () => {
-    // maybe it's kind of an authorization that is happening here, i'm sending the user
-    // email to authorize the server getting the user's created todos
-
     const res = await axios.get("http://localhost:8000/todos/" + userEmail);
 
     if (Array.isArray(res.data.data)) {
@@ -74,7 +65,7 @@ export const MainPanel = () => {
         value={{ todos, getData, visible, setVisible, mode, setMode }}
       >
         {/* The problem is in this mode="create" */}
-        {visible && <Modal />}
+        {visible && mode === 'create' && <Modal />}
         <div className={styles["todo-tasks"]}>
           <ul className={styles["todo-list"]}>
             {todos &&

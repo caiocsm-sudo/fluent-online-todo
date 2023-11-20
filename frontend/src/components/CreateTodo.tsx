@@ -6,20 +6,28 @@ import TodoListInterface from "../utils/TodoListInterface";
 import styles from "./css/CreateTodo.module.css";
 import { Label, Input, Button, Slider } from "@fluentui/react-components";
 
-import { StateUpdatersContext } from "./MainPanel";
+import { StateUpdatersContext, /* EditContext */ } from "../utils/Context";
 
 import axios from "axios";
 
 export default function CreateTodo({
   mode,
   getData,
-  todo,
+  // todo,
 }: {
   mode: "create" | "edit";
   getData: () => Promise<void>;
-  todo?: TodoListInterface;
+  // todo?: TodoListInterface;
 }) {
   const { setVisible } = useContext(StateUpdatersContext);
+
+  // placeholder for useContext EditTodo
+  const todo = {
+    id: 'vaitomarnocu',
+    description: 'vaitefoder',
+    progress: 10,
+    title: 'se fode',
+  };
 
   // Provided by Redux
   const userEmail = "porracara@gmail.com";
@@ -40,7 +48,6 @@ export default function CreateTodo({
       title: title,
       description: description,
       progress: progress,
-      completed: false,
       user_email: userEmail,
       date: `${Date.toString()}`,
     };

@@ -1,15 +1,19 @@
-import { useContext } from "react";
+import { useContext, useState, createContext } from "react";
 
 import { Button, Checkbox } from "@fluentui/react-components";
-
 import { DeleteRegular, EditRegular } from "@fluentui/react-icons";
+
+import { Edit } from "../utils/Context";
+
+import { EditContext } from "../utils/Context";
+import { StateUpdatersContext } from "./MainPanel";
+
 import Progress from "./Progress";
 import Modal from "./Modal";
 
 import styles from "./css/TodoList.module.css";
 
 import axios from "axios";
-import { StateUpdatersContext } from "./MainPanel";
 
 export default function TodoList({
   id,
@@ -23,8 +27,15 @@ export default function TodoList({
   progress: number;
 }) {
   // useContext
-  const { visible, getData, setVisible, setMode } =
+  const { visible, getData, setVisible, mode, setMode } =
     useContext(StateUpdatersContext);
+
+  const [editData, setEditData] = useState<Edit>({
+    id,
+    title,
+    description,
+    progress
+  });
 
   const handleDelete = async () => {
     const result = await axios.delete("http://localhost:8000/todos/" + id);
@@ -38,6 +49,7 @@ export default function TodoList({
   };
 
   const handleEdit = () => {
+
     setMode("edit");
     setVisible(true);
   };
@@ -63,7 +75,9 @@ export default function TodoList({
           <DeleteRegular />
         </Button>
       </div>
-      {visible && <Modal />}
+      <EditContext.Provider value={editData}>
+        {visible && mode === 'edit' && <Modal />}
+      </EditContext.Provider>
     </li>
   );
 }

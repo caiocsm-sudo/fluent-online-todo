@@ -20,7 +20,7 @@ const Authentication: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const { _, setCookies } = useCookies();
+  const [cookies, setCookies, removeCookies] = useCookies();
 
   const { mode } = useParams();
 
@@ -37,8 +37,10 @@ const Authentication: FC = () => {
 
     console.log(result.statusText);
 
-    if (result.data.status === 'success') {
-      setCookies('Token', result.data.token);
+    console.log(result);
+
+    if (result.data.data.status === 'success') {
+      setCookies('Token', result.data.data.token);
     }
 
     return result;
