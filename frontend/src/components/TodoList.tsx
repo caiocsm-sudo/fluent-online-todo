@@ -1,4 +1,4 @@
-import { useContext, useState, createContext } from "react";
+import { useContext, useState } from "react";
 
 import { Button, Checkbox } from "@fluentui/react-components";
 import { DeleteRegular, EditRegular } from "@fluentui/react-icons";
@@ -30,7 +30,7 @@ export default function TodoList({
   const { visible, getData, setVisible, mode, setMode } =
     useContext(StateUpdatersContext);
 
-  const [editData, setEditData] = useState<Edit>({
+  const [editData,] = useState<Edit>({
     id,
     title,
     description,
@@ -49,7 +49,6 @@ export default function TodoList({
   };
 
   const handleEdit = () => {
-
     setMode("edit");
     setVisible(true);
   };
