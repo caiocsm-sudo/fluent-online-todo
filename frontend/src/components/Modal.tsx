@@ -8,7 +8,7 @@ import styles from "./css/Modal.module.css";
 import { StateUpdatersContext } from "./MainPanel";
 
 export default function Modal() {
-  const { mode, todos, getData, setVisible } = useContext(StateUpdatersContext);
+  const { mode, getData, setVisible } = useContext(StateUpdatersContext);
 
   return (
     <div className={styles["modal-shadow"]}>
@@ -19,7 +19,7 @@ export default function Modal() {
           onClick={() => setVisible(false)}
         />
         {/* Will recieve a form for each option -> create todo, login, signup */}
-        <CreateTodo mode={mode} getData={getData} todo={todos} />
+        <CreateTodo mode={mode} getData={getData} />
       </div>
     </div>
   );

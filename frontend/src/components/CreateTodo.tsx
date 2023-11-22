@@ -6,27 +6,33 @@ import TodoListInterface from "../utils/TodoListInterface";
 import styles from "./css/CreateTodo.module.css";
 import { Label, Input, Button, Slider } from "@fluentui/react-components";
 
-import { StateUpdatersContext, /* EditContext */ } from "../utils/Context";
+import {
+  Edit,
+  EditContext,
+  StateUpdatersContext /* EditContext */,
+} from "../utils/Context";
 
 import axios from "axios";
 
 export default function CreateTodo({
   mode,
   getData,
-  // todo,
-}: {
+}: // todo,
+{
   mode: "create" | "edit";
   getData: () => Promise<void>;
   // todo?: TodoListInterface;
 }) {
   const { setVisible } = useContext(StateUpdatersContext);
 
+  const editData = useContext(EditContext);
+
   // placeholder for useContext EditTodo
-  const todo = {
-    id: 'vaitomarnocu',
-    description: 'vaitefoder',
-    progress: 10,
-    title: 'se fode',
+  const todo: Edit = {
+      id: editData?.id,
+      description: editData?.description,
+      progress: editData?.progress,
+      title: editData?.title,
   };
 
   // Provided by Redux
@@ -74,10 +80,13 @@ export default function CreateTodo({
     try {
       const edited: object = { title, description, progress };
 
-      const result = await axios.patch("http://localhost:8000/todos/" + todo?.id, edited);
+      const result = await axios.patch(
+        "http://localhost:8000/todos/" + todo?.id,
+        edited
+      );
 
       if (result.status === 200) {
-        console.log('success');
+        console.log("success");
         setVisible(false);
         getData();
       }
@@ -123,7 +132,9 @@ export default function CreateTodo({
           <Button
             type="submit"
             appearance="primary"
-            onClick={(e: BaseSyntheticEvent) => mode === 'create' ? handleCreate(e) : handleEdit(e)}
+            onClick={(e: BaseSyntheticEvent) =>
+              mode === "create" ? handleCreate(e) : handleEdit(e)
+            }
             style={{ width: "100%" }}
           >
             {mode === "create" ? "Create" : "Edit"} Todo
