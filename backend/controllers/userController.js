@@ -37,21 +37,19 @@ exports.registerUser = async (req, res) => {
 
 exports.logInUser = async (req, res) => {
   const { email, password } = req.body;
+
   try {
     console.table({ email, password });
-    const user = new User('', email, password);
+    const user = await new User("", email, password).login();
 
-    const loggedUser = await user.login();
+    console.log(user);
 
-    console.log(loggedUser);
+    const accessToken = jwt.sign(email, process.env.TOKEN_SECRET);
 
-    if (loggedUser) {
-      const accessToken = jwt.sign(username, process.env.TOKEN_SECRET);
-      res.json({
-        status: 'success',
-        data: { loggedUser, accessToken },
-      });
-    }
+    res.json({
+      status: 'success',
+      data: { user, accessToken },
+    });
   } catch (error) {
     res.json({
       status: 'fail',
@@ -59,3 +57,4 @@ exports.logInUser = async (req, res) => {
     });
   }
 };
+

@@ -12,7 +12,7 @@ class User {
     this.user_email = user_email;
     this.password = password;
     this.id = null;
-    this.user = null;
+    // this.user = null;
     this.errors = [];
   }
 
@@ -20,44 +20,40 @@ class User {
     this.checkErrors();
     if (this.errors.length > 0) return;
 
-    // pega o email e vê se tem na database
     const user = await this.checkEmail("login");
 
-    console.log(user.rows[0]);
-
-    if (!user.rows[0].user_email) return "Email doesn't exist";
+    if (!user.rows[0].user_email)
+      return this.errors.push("Email doesn't exist");
 
     const loggedUser = await pool.query(
       "SELECT * FROM users WHERE user_email = $1",
       [this.user_email]
     );
 
-    const password = loggedUser.rows[0].password;
+    // REMINDER: Remove duplicate users registered;
+    const userPassword = loggedUser.rows[0].password;
 
-    // console.log(password);
-
-    console.log('promise await checkPassword');
-
-    const isPasswordCorrect = await this.checkPassword(password);
-
-    console.log("correct password? -> " + isPasswordCorrect);
-
-    // working!!!! yeah bitch!!!!
+    const isPasswordCorrect = await this.checkPassword(userPassword);
 
     if (!user || !isPasswordCorrect) {
-      console.log('error block after checking password');
       this.errors.push("Incorrect email and/or password");
       return;
     }
-    return loggedUser.rows;
+
+    console.log(loggedUser.rows[0]);
+
+    this.id = loggedUser.rows[0].id;
+    this.username = loggedUser.rows[0].username;
+    this.user_email = loggedUser.rows[0].user_email;
+    this.user_image = loggedUser.rows[0].user_image;
+    this.password = '';
+    return this;
   }
 
   async register() {
     this.checkErrors();
 
     const emailExist = await this.checkEmail("register");
-
-    console.log(emailExist.rows);
 
     if (emailExist.rows.user_email) {
       this.errors.push("This email is already registered");
@@ -86,6 +82,7 @@ class User {
     // TODO: You cannot create a user and already set the image
     // you need to create your user first, then you change the image;
 
+    // next feature to be implemented
     const userImage = await pool.query("");
 
     console.log(userImage);
