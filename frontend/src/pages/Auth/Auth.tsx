@@ -2,10 +2,9 @@ import { FC, useState } from "react";
 import { Button, Divider } from "@fluentui/react-components";
 import styles from "./css/Login.module.css";
 
-// The /login has an id, which is the mode;
 import { useParams } from "react-router-dom";
 
-type UserLogin = { username: string; password: string };
+type UserLogin = { email: string; password: string };
 type UserRegister = { username: string; email: string; password: string };
 
 import axios from "axios";
@@ -19,12 +18,19 @@ const Authentication: FC = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [serverMessage, setServerMessage] = useState<string>('');
 
-  const [cookies, setCookies, removeCookies] = useCookies();
+  const [/* cookies */, setCookies, /* removeCookies */] = useCookies();
 
   const { mode } = useParams();
 
   const modeText = mode === "login" ? "Login" : "Sign Up";
+
+  const emptyFiels = () => {
+    setUsername('');
+    setEmail('');
+    setPassword('');
+  }
 
   const requestFunction = async (
     endpoint: "login" | "register",
@@ -37,9 +43,7 @@ const Authentication: FC = () => {
 
     console.log(result.statusText);
 
-    console.log(result);
-
-    if (result.data.data.status === 'success') {
+    if (result.data.status === 'success' && endpoint === 'login') {
       setCookies('Token', result.data.data.token);
     }
 
@@ -48,9 +52,15 @@ const Authentication: FC = () => {
 
   const handleLogin = async () => {
     // Add authentication logic
-    if (username && password) {
-      const data = await requestFunction("login", { username, password });
-      console.log(data);
+    if (email && password) {
+      const result = await requestFunction("login", { email, password });
+
+      // not recieving email + token + confirmation;
+
+      console.log(result);
+      if (result.data.status === 'fail') {
+        setServerMessage(result.data.status)
+      }
     } else {
       alert("Please enter both username and password.");
     }
@@ -58,12 +68,16 @@ const Authentication: FC = () => {
 
   const handleRegister = async () => {
     if (username && email && password) {
-      const data = await requestFunction("register", {
+      const result = await requestFunction("register", {
         username,
         email,
         password,
       });
-      console.log(data);
+      console.log(result);
+
+      if (result.data.status === 'success') emptyFiels();
+
+      setServerMessage(result.data.message);
     }
   };
 
@@ -103,7 +117,7 @@ const Authentication: FC = () => {
           <div>
             <Divider>Or Sign In with</Divider>
           </div>
-          <div></div>
+          <div style={{ textAlign: 'center', fontSize: '1.5rem', margin: '1rem 0 0 0' }}>{serverMessage}</div>
         </div>
       </form>
     </div>
