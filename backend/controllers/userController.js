@@ -21,12 +21,10 @@ exports.registerUser = async (req, res) => {
         error: [...user.errors],
       });
     } else {
-      const accessToken = jwt.sign(username, process.env.TOKEN_SECRET);
-      // not with the third parameter, which is an object that can contain an expiring time;
-
       res.json({
         status: "success",
-        data: { result, accessToken },
+        message: "User created successfully",
+        data: result,
       });
     }
   } catch (error) {
@@ -38,14 +36,22 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.logInUser = async (req, res) => {
-  const { user_email, password } = req.body;
-
+  const { email, password } = req.body;
   try {
-    const user = new User(user_email, password);
+    console.table({ email, password });
+    const user = new User('', email, password);
 
     const loggedUser = await user.login();
 
     console.log(loggedUser);
+
+    if (loggedUser) {
+      const accessToken = jwt.sign(username, process.env.TOKEN_SECRET);
+      res.json({
+        status: 'success',
+        data: { loggedUser, accessToken },
+      });
+    }
   } catch (error) {
     res.json({
       status: 'fail',

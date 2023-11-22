@@ -4,6 +4,8 @@ const pool = require("../database/db");
 const uuid = require("uuid");
 // não é possivel que essa porra instalada não ta funcionando, né
 
+// Register functionality is OK, login is still to be implemented;
+
 class User {
   constructor(username, user_email, password) {
     this.username = username;
@@ -18,20 +20,35 @@ class User {
     this.checkErrors();
     if (this.errors.length > 0) return;
 
-    const user = this.checkEmail("login");
+    // pega o email e vê se tem na database
+    const user = await this.checkEmail("login");
 
-    const isPasswordCorrect = this.checkPassword();
+    console.log(user.rows[0]);
 
-    if (!user || isPasswordCorrect) {
-      this.errors.push("Incorrect email and/or password");
-      return;
-    }
+    if (!user.rows[0].user_email) return "Email doesn't exist";
 
     const loggedUser = await pool.query(
       "SELECT * FROM users WHERE user_email = $1",
       [this.user_email]
     );
 
+    const password = loggedUser.rows[0].password;
+
+    // console.log(password);
+
+    console.log('promise await checkPassword');
+
+    const isPasswordCorrect = await this.checkPassword(password);
+
+    console.log("correct password? -> " + isPasswordCorrect);
+
+    // working!!!! yeah bitch!!!!
+
+    if (!user || !isPasswordCorrect) {
+      console.log('error block after checking password');
+      this.errors.push("Incorrect email and/or password");
+      return;
+    }
     return loggedUser.rows;
   }
 
@@ -42,7 +59,7 @@ class User {
 
     console.log(emailExist.rows);
 
-    if (emailExist.rows[0].user_email) {
+    if (emailExist.rows.user_email) {
       this.errors.push("This email is already registered");
       return;
     }
@@ -61,7 +78,6 @@ class User {
       );
 
       console.log(result);
-
       return result;
     }
   }
@@ -69,20 +85,10 @@ class User {
   async addProfileImage() {
     // TODO: You cannot create a user and already set the image
     // you need to create your user first, then you change the image;
-  }
 
-  async checkPassword() {
-    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
-      this.user_email,
-    ]);
+    const userImage = await pool.query("");
 
-    console.log(user.rows);
-
-    const isPasswordCorrect = await bcrypt.compare(
-      this.password,
-      user.rows[0].password
-    );
-    return isPasswordCorrect;
+    console.log(userImage);
   }
 
   encryptPassword() {
@@ -92,6 +98,14 @@ class User {
     return (this.password = encrypted);
   }
 
+  async checkPassword(password) {
+    const isPasswordCorrect = await bcrypt.compare(
+      this.password,
+      password
+    );
+    return isPasswordCorrect;
+  }
+
   checkErrors() {
     if (!validator.default.isEmail(this.user_email)) {
       this.errors.push("Please, type a valid e-mail");
@@ -99,6 +113,9 @@ class User {
     if (this.password.length < 6 && this.password.length > 15) {
       this.errors.push("your password is not at an acceptable length.");
     }
+  }
+
+  checkRegisterErrors() {
     if (this.username.length < 3 && this.username.length > 25) {
       this.errors.push("Your username is not at an accepted length.");
     }
