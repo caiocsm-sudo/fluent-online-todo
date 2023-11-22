@@ -15,6 +15,9 @@ import Login from "./login/Login";
 import Register from "./register/Register";
 
 const Authentication: FC = () => {
+  const { mode } = useParams();
+  const modeText = mode === "login" ? "Login" : "Sign Up";
+
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -22,16 +25,13 @@ const Authentication: FC = () => {
 
   const [/* cookies */, setCookies, /* removeCookies */] = useCookies();
 
-  const { mode } = useParams();
-
-  const modeText = mode === "login" ? "Login" : "Sign Up";
-
   const emptyFiels = () => {
     setUsername('');
     setEmail('');
     setPassword('');
   }
 
+  // put it in another file later
   const requestFunction = async (
     endpoint: "login" | "register",
     body: UserLogin | UserRegister
@@ -51,15 +51,16 @@ const Authentication: FC = () => {
   };
 
   const handleLogin = async () => {
-    // Add authentication logic
     if (email && password) {
+      // TODO: Send the error message from server to client
+
       const result = await requestFunction("login", { email, password });
+      setServerMessage(result.data.status);
 
-      // not recieving email + token + confirmation;
-
-      console.log(result);
-      if (result.data.status === 'fail') {
-        setServerMessage(result.data.status)
+      if (result.data.status === 'success') {
+        setCookies("token", result.data.accessToken);
+        // later function to dispatch user to Redux
+        // setSessionUser();
       }
     } else {
       alert("Please enter both username and password.");
