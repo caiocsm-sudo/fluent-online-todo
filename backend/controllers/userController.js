@@ -46,20 +46,21 @@ exports.logInUser = async (req, res) => {
 
     const accessToken = jwt.sign(email, process.env.TOKEN_SECRET);
 
-    console.log(logged);
+    console.log("user -> " + user.errors + "\nlogged -> " + logged.errors);
 
     // errors array being used for the first time
-    if (logged.errors.length > 1) throw new Error(...logged.errors);
+    if (logged.errors.length >= 1) throw new Error(user.errors);
 
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: { user, accessToken },
     });
   } catch (error) {
-    res.json({
-      status: 'fail',
-      detail: error,
+    console.log(error.toString().slice(7));
+
+    res.status(404).json({
+      status: "fail",
+      error: `${error.toString().slice(7)}`,
     });
   }
 };
-
