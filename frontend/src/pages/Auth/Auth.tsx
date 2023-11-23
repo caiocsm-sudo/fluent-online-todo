@@ -1,43 +1,47 @@
 import { FC, useState } from "react";
 import { Button, Divider } from "@fluentui/react-components";
+
 import styles from "./css/Login.module.css";
-
-import { useParams } from "react-router-dom";
-
-type UserLogin = { email: string; password: string };
-type UserRegister = { username: string; email: string; password: string };
 
 import axios from "axios";
 
+import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { addUser, logOutUser } from "../../app/user/userSlice";
 
 import Login from "./login/Login";
 import Register from "./register/Register";
 
+type UserLogin = { email: string; password: string };
+type UserRegister = { username: string; email: string; password: string };
+
 const Authentication: FC = () => {
+  const navigate = useNavigate();
   const { mode } = useParams();
   const modeText = mode === "login" ? "Login" : "Sign Up";
 
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [serverMessage, setServerMessage] = useState<string>('');
+  const [serverMessage, setServerMessage] = useState<string>("");
 
-  const [/* cookies */, setCookies, /* removeCookies */] = useCookies();
+  const [, /* cookies */ setCookies /* removeCookies */] = useCookies();
 
   const emptyFiels = () => {
-    setUsername('');
-    setEmail('');
-    setPassword('');
-  }
+    setUsername("");
+    setEmail("");
+    setPassword("");
+  };
 
-  const setSessionUser = (username: string, userEmail: string) => {
-    dispatch(addUser({ username, userEmail }));
-  }
+  const setSessionUser = (username: string, user_email: string, id: string) => {
+    if (user.username || user.user_email) return;
+    dispatch(addUser({ username, user_email, id }));
+  };
 
   // put it in another file later
   const requestFunction = async (
@@ -48,12 +52,6 @@ const Authentication: FC = () => {
       `http://localhost:8000/user/${endpoint}`,
       body
     );
-
-    console.log(result.statusText);
-
-    if (result.data.status === 'success' && endpoint === 'login') {
-      setCookies('Token', result.data.data.token);
-    }
 
     return result;
   };
@@ -66,14 +64,21 @@ const Authentication: FC = () => {
 
       setServerMessage(result.data.status);
 
-      console.log(result);
+      if (result.data.status === "success") {
+        const loggedUser = result.data.data.user;
 
-      if (result.data.status === 'success') {
-        emptyFiels();
+        setSessionUser(
+          loggedUser.username,
+          loggedUser.user_email,
+          loggedUser.id
+        );
         setCookies("token", result.data.accessToken);
+
+        navigate("/");
       } else {
-        setServerMessage(result.data.status);
+        setServerMessage("Incorrect user or password");
       }
+      emptyFiels();
     } else {
       alert("Please enter both username and password.");
     }
@@ -88,7 +93,7 @@ const Authentication: FC = () => {
       });
       console.log(result);
 
-      if (result.data.status === 'success') emptyFiels();
+      if (result.data.status === "success") emptyFiels();
 
       setServerMessage(result.data.message);
     }
@@ -130,7 +135,20 @@ const Authentication: FC = () => {
           <div>
             <Divider>Or Sign In with</Divider>
           </div>
-          <div style={{ textAlign: 'center', fontSize: '0.7rem', margin: '1rem 0 0 0' }}>{serverMessage}</div>
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: "0.7rem",
+              margin: "1rem 0 0 0",
+            }}
+          >
+            {serverMessage}
+          </div>
+          <div>
+            <Button onClick={() => dispatch(logOutUser())}>
+              log out for testing
+            </Button>
+          </div>
         </div>
       </form>
     </div>
