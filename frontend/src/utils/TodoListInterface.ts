@@ -1,3 +1,5 @@
+// maybe deprecated
+
 export default interface TodoListInterface {
   id?: string;
   title: string;

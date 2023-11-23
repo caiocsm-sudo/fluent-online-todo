@@ -4,11 +4,11 @@ import { Dispatch, SetStateAction, createContext } from "react";
 
 import TodoListInterface from "./TodoListInterface";
 
-type Todo = {
+export type Todo = {
   id: string | undefined,
-  title: string,
-  description: string,
-  progress: number | string,
+  title: string | undefined,
+  description: string | undefined,
+  progress: number | undefined,
 }
 
 export interface Context {
@@ -20,11 +20,11 @@ export interface Context {
   setMode: Dispatch<SetStateAction<string>>
 }
 
-export interface Edit {
-  todo: Todo
-}
+// export interface Edit {
+//   todo: Todo
+// }
 
-const EditContext = createContext<Edit | undefined>(undefined);
+const EditContext = createContext<Todo | undefined>(undefined);
 
 const StateUpdatersContext = createContext<Context | undefined | any>(
   undefined
