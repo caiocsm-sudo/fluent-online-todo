@@ -40,13 +40,18 @@ exports.logInUser = async (req, res) => {
 
   try {
     console.table({ email, password });
-    const user = await new User("", email, password).login();
+    const user = new User("", email, password);
 
-    console.log(user);
+    const logged = await user.login();
 
     const accessToken = jwt.sign(email, process.env.TOKEN_SECRET);
 
-    res.json({
+    console.log(logged);
+
+    // errors array being used for the first time
+    if (logged.errors.length > 1) throw new Error(...logged.errors);
+
+    res.status(200).json({
       status: 'success',
       data: { user, accessToken },
     });

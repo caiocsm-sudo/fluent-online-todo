@@ -2,9 +2,6 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 const pool = require("../database/db");
 const uuid = require("uuid");
-// não é possivel que essa porra instalada não ta funcionando, né
-
-// Register functionality is OK, login is still to be implemented;
 
 class User {
   constructor(username, user_email, password) {
@@ -12,10 +9,10 @@ class User {
     this.user_email = user_email;
     this.password = password;
     this.id = null;
-    // this.user = null;
     this.errors = [];
   }
 
+  // almost 100% working. What's missing? -> Error handling
   async login() {
     this.checkErrors();
     if (this.errors.length > 0) return;
@@ -37,19 +34,28 @@ class User {
 
     if (!user || !isPasswordCorrect) {
       this.errors.push("Incorrect email and/or password");
-      return;
+      [this.email, this.password] = ["", ""];
+
+    } else {
+      [
+        this.id,
+        this.username,
+        this.user_email,
+        this.user_image,
+        this.password,
+      ] = [
+        loggedUser.rows[0].id,
+        loggedUser.rows[0].username,
+        loggedUser.rows[0].user_email,
+        loggedUser.rows[0].usser_image,
+        "",
+      ];
     }
 
-    console.log(loggedUser.rows[0]);
-
-    this.id = loggedUser.rows[0].id;
-    this.username = loggedUser.rows[0].username;
-    this.user_email = loggedUser.rows[0].user_email;
-    this.user_image = loggedUser.rows[0].user_image;
-    this.password = '';
     return this;
   }
 
+  // almost 100% working. What's missing? -> Error handling
   async register() {
     this.checkErrors();
 
@@ -83,7 +89,7 @@ class User {
     // you need to create your user first, then you change the image;
 
     // next feature to be implemented
-    const userImage = await pool.query("");
+    const userImage = await pool.query("INSERT INTO users VALUEs");
 
     console.log(userImage);
   }
@@ -96,10 +102,7 @@ class User {
   }
 
   async checkPassword(password) {
-    const isPasswordCorrect = await bcrypt.compare(
-      this.password,
-      password
-    );
+    const isPasswordCorrect = await bcrypt.compare(this.password, password);
     return isPasswordCorrect;
   }
 
