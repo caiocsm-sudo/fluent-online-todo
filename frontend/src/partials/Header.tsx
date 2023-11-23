@@ -1,12 +1,29 @@
+import { FC, useEffect, useState } from "react";
 import { Avatar } from "@fluentui/react-components";
 import { DefaultButton, PrimaryButton } from "@fluentui/react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 
+import { useSelector, useDispatch } from "react-redux";
+import { logOutUser } from "../app/user/userSlice";
+
 // logged in ? avatar : '';
 
-export default function Header() {
-  const loggedIn: boolean = false;
+const Header: FC = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoggedIn(user.user_email ? true : false);
+  }, [user]);
+
+  const handleLogOut = () => {
+    dispatch(logOutUser());
+    console.log(user);
+    console.log(user.username);
+  };
 
   return (
     <header className={styles.header}>
@@ -15,7 +32,9 @@ export default function Header() {
       </Link>
       <div>
         {loggedIn ? (
-          <DefaultButton className={styles.btn}>Log Out</DefaultButton>
+          <DefaultButton className={styles.btn} onClick={handleLogOut}>
+            Log Out
+          </DefaultButton>
         ) : (
           <>
             <Link to="/login/login">
@@ -27,15 +46,19 @@ export default function Header() {
           </>
         )}
         {loggedIn ? (
-          <Avatar
-            name="guest"
-            className={styles.avatar}
-            image={{
-              src: "https://i.pinimg.com/564x/28/8f/b6/288fb60866ff176876fbc3f4304f318f.jpg",
-            }}
-          />
+          <Link to="/profile">
+            <Avatar
+              name="guest"
+              className={styles.avatar}
+              image={{
+                src: "https://i.pinimg.com/564x/28/8f/b6/288fb60866ff176876fbc3f4304f318f.jpg",
+              }}
+            />
+          </Link>
         ) : null}
       </div>
     </header>
   );
-}
+};
+
+export default Header;
