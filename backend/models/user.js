@@ -24,7 +24,7 @@ class User {
 
     const loggedUser = await pool.query(
       "SELECT * FROM users WHERE user_email = $1",
-      [this.user_email]
+      [this.user_email],
     );
 
     // REMINDER: Remove duplicate users registered;
@@ -35,7 +35,6 @@ class User {
     if (!user || !isPasswordCorrect) {
       this.errors.push("Incorrect email and/or password");
       [this.email, this.password] = ["", ""];
-
     } else {
       [
         this.id,
@@ -76,7 +75,7 @@ class User {
     if (this.id) {
       const result = await pool.query(
         `INSERT INTO users (id, username, user_email, password) VALUEs ($1, $2, $3, $4)`,
-        [this.id, this.username, this.user_email, this.password]
+        [this.id, this.username, this.user_email, this.password],
       );
 
       console.log(result);
@@ -124,7 +123,7 @@ class User {
   async checkEmail() {
     const result = await pool.query(
       "SELECT * FROM users WHERE user_email = $1",
-      [this.user_email]
+      [this.user_email],
     );
 
     return result;
