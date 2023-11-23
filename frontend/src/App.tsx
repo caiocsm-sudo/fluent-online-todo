@@ -5,6 +5,7 @@ import { MainPanel } from "./components/MainPanel";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Authentication from "./pages/Auth/Auth";
+import Profile from "./pages/User/Profile";
 
 const App: FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: FC = () => {
           <Routes>
             <Route path="/" Component={MainPanel} />
             <Route path="/login/:mode" Component={Authentication} />
+            <Route path="/profile" Component={Profile}/>
           </Routes>
         </main>
       </div>
