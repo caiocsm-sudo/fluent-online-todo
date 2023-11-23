@@ -10,6 +10,7 @@ type UserRegister = { username: string; email: string; password: string };
 import axios from "axios";
 
 import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 
 import Login from "./login/Login";
 import Register from "./register/Register";
@@ -17,6 +18,9 @@ import Register from "./register/Register";
 const Authentication: FC = () => {
   const { mode } = useParams();
   const modeText = mode === "login" ? "Login" : "Sign Up";
+
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -29,6 +33,10 @@ const Authentication: FC = () => {
     setUsername('');
     setEmail('');
     setPassword('');
+  }
+
+  const setSessionUser = (username: string, userEmail: string) => {
+    dispatch(addUser({ username, userEmail }));
   }
 
   // put it in another file later
@@ -55,12 +63,16 @@ const Authentication: FC = () => {
       // TODO: Send the error message from server to client
 
       const result = await requestFunction("login", { email, password });
+
       setServerMessage(result.data.status);
 
+      console.log(result);
+
       if (result.data.status === 'success') {
+        emptyFiels();
         setCookies("token", result.data.accessToken);
-        // later function to dispatch user to Redux
-        // setSessionUser();
+      } else {
+        setServerMessage(result.data.status);
       }
     } else {
       alert("Please enter both username and password.");
@@ -118,7 +130,7 @@ const Authentication: FC = () => {
           <div>
             <Divider>Or Sign In with</Divider>
           </div>
-          <div style={{ textAlign: 'center', fontSize: '1.5rem', margin: '1rem 0 0 0' }}>{serverMessage}</div>
+          <div style={{ textAlign: 'center', fontSize: '0.7rem', margin: '1rem 0 0 0' }}>{serverMessage}</div>
         </div>
       </form>
     </div>
