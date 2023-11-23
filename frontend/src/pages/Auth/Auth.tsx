@@ -100,57 +100,59 @@ const Authentication: FC = () => {
   };
 
   return (
-    <div className={styles["login-form"]}>
-      <form method="post">
-        <div className={styles["conventional-login"]}>
-          <h2>{modeText}</h2>
-          {modeText === "Login" ? (
-            <Login
-              username={username}
-              email={email}
-              password={password}
-              setEmail={setEmail}
-              setPassword={setPassword}
-              setUsername={setUsername}
-            />
-          ) : (
-            <Register
-              username={username}
-              email={email}
-              password={password}
-              setEmail={setEmail}
-              setPassword={setPassword}
-              setUsername={setUsername}
-            />
-          )}
-          <br />
-          <Button
-            appearance="primary"
-            onClick={mode === "login" ? handleLogin : handleRegister}
-          >
-            {modeText}
-          </Button>
-        </div>
-        <div className={styles["oauth-options"]}>
-          <div>
-            <Divider>Or Sign In with</Divider>
-          </div>
-          <div
-            style={{
-              textAlign: "center",
-              fontSize: "0.7rem",
-              margin: "1rem 0 0 0",
-            }}
-          >
-            {serverMessage}
-          </div>
-          <div>
-            <Button onClick={() => dispatch(logOutUser())}>
-              log out for testing
+    <div className={styles["wrapper"]}>
+      <div className={styles["login-form"]}>
+        <form method="post">
+          <div className={styles["conventional-login"]}>
+            <h2>{modeText}</h2>
+            {modeText === "Login" ? (
+              <Login
+                username={username}
+                email={email}
+                password={password}
+                setEmail={setEmail}
+                setPassword={setPassword}
+                setUsername={setUsername}
+              />
+            ) : (
+              <Register
+                username={username}
+                email={email}
+                password={password}
+                setEmail={setEmail}
+                setPassword={setPassword}
+                setUsername={setUsername}
+              />
+            )}
+            <br />
+            <Button
+              appearance="primary"
+              onClick={mode === "login" ? handleLogin : handleRegister}
+            >
+              {modeText}
             </Button>
           </div>
-        </div>
-      </form>
+          <div className={styles["oauth-options"]}>
+            <div>
+              <Divider>Or Sign In with</Divider>
+            </div>
+            <div
+              style={{
+                textAlign: "center",
+                fontSize: "0.7rem",
+                margin: "1rem 0 0 0",
+              }}
+            >
+              {serverMessage}
+            </div>
+            <div>
+              <Button onClick={() => dispatch(logOutUser())}>
+                log out for testing
+              </Button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

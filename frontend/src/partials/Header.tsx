@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useContext } from "react";
 import { Avatar } from "@fluentui/react-components";
 import { DefaultButton, PrimaryButton } from "@fluentui/react";
 import { Link } from "react-router-dom";
@@ -6,18 +6,16 @@ import styles from "./Header.module.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { logOutUser } from "../app/user/userSlice";
+import { LoginContext } from "../utils/Context";
 
 // logged in ? avatar : '';
+
 
 const Header: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoggedIn(user.user_email ? true : false);
-  }, [user]);
+  const { loggedIn } = useContext(LoginContext);
 
   const handleLogOut = () => {
     dispatch(logOutUser());

@@ -1,0 +1,57 @@
+@keyframes moving-background {
+  from {
+    background: radial-gradient(circle, rgba(208,217,231,1) 0%, rgba(255,255,255,1) 20%);
+  } to {
+    background: radial-gradient(circle, rgba(208,217,231,1) 50%, rgba(255,255,255,1) 50%);
+  }
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.header-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90vh;
+  padding: 1rem;
+  background: linear-gradient(45deg, #ffffff, rgb(224, 208, 252), #d6eefa, #ded5ff);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite alternate;
+}
+
+.gradient-title {
+  font-size: 3.3rem;
+  margin: 0 0 7px 0;
+  line-height: 3.3rem;
+  background: linear-gradient(90deg, rgb(21, 24, 31), rgb(90, 112, 221) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-section > p.app-description {
+  font-size: 1.2rem;
+}
+
+.get-started {
+  margin: 1.3rem 0;
+}
+
+.get-started > button {
+  width: 25%;
+  padding: 0.4rem;
+}
