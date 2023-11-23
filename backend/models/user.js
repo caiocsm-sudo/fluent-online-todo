@@ -46,7 +46,7 @@ class User {
         loggedUser.rows[0].id,
         loggedUser.rows[0].username,
         loggedUser.rows[0].user_email,
-        loggedUser.rows[0].usser_image,
+        loggedUser.rows[0].user_image,
         "",
       ];
     }
