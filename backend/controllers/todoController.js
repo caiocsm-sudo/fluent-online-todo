@@ -29,7 +29,7 @@ exports.getTodos = async (req, res) => {
     try {
       const result = await pool.query(
         "SELECT * FROM todo WHERE user_email = $1",
-        [email]
+        [email],
       );
       res.json({ status: "success", data: result.rows });
     } catch (error) {
@@ -49,7 +49,7 @@ exports.postTodo = async (req, res) => {
 
     const result = await pool.query(
       `INSERT INTO todo (id, title, description, progress, completed, user_email, date) VALUEs ($1, $2, $3, $4, $5, $6, $7)`,
-      [id, title, description, progress, completed, user_email, date]
+      [id, title, description, progress, completed, user_email, date],
     );
 
     res.json({
@@ -72,7 +72,7 @@ exports.editTodo = async (req, res) => {
     console.table({ id, title, description, progress });
     const edited = await pool.query(
       "UPDATE todo SET title = $1, description = $2, progress = $3 WHERE id = $4 RETURNING *",
-      [title, description, progress, id]
+      [title, description, progress, id],
     );
 
     res.json({
