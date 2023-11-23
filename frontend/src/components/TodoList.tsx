@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { Button, Checkbox } from "@fluentui/react-components";
 import { DeleteRegular, EditRegular } from "@fluentui/react-icons";
 
-import { Edit } from "../utils/Context";
+import { Todo } from "../utils/Context";
 
 import { EditContext } from "../utils/Context";
 import { StateUpdatersContext } from "./MainPanel";
@@ -30,7 +30,7 @@ export default function TodoList({
   const { visible, getData, setVisible, mode, setMode } =
     useContext(StateUpdatersContext);
 
-  const [editData,] = useState<Edit>({
+  const [editData,] = useState<Todo>({
     id,
     title,
     description,

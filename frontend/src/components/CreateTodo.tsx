@@ -7,7 +7,7 @@ import styles from "./css/CreateTodo.module.css";
 import { Label, Input, Button, Slider } from "@fluentui/react-components";
 
 import {
-  Edit,
+  Todo,
   EditContext,
   StateUpdatersContext /* EditContext */,
 } from "../utils/Context";
@@ -20,22 +20,24 @@ export default function CreateTodo({
   mode,
   getData,
 }: // todo,
-{
-  mode: "create" | "edit";
-  getData: () => Promise<void>;
-  // todo?: TodoListInterface;
-}) {
+  {
+    mode: "create" | "edit";
+    getData: () => Promise<void>;
+    // todo?: TodoListInterface;
+  }) {
   const { setVisible } = useContext(StateUpdatersContext);
 
   const editData = useContext(EditContext);
 
   // placeholder for useContext EditTodo
-  const todo: Edit = {
-      id: editData?.id,
-      description: editData?.description,
-      progress: editData?.progress,
-      title: editData?.title,
+  const todo: Todo = {
+    id: editData?.id,
+    title: editData?.title,
+    description: editData?.description,
+    progress: editData?.progress,
   };
+
+  console.log(todo);
 
   // Provided by Redux
   const userEmail = "porracara@gmail.com";
