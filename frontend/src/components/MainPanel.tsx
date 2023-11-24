@@ -10,9 +10,11 @@ import TodoList from "./TodoList";
 import Modal from "./Modal";
 import TodoListInterface from "../utils/TodoListInterface";
 import { StateUpdatersContext } from '../utils/Context';
+import { UserReducer } from "../app/store";
 
 // only imported because of getData function
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const MainPanel = () => {
   // higher level of abstraction = make it global with useContext instead of Redux
@@ -24,8 +26,11 @@ export const MainPanel = () => {
   const [visible, setVisible] = useState<boolean>(false);
   // States
 
-  // test email later substituted by Redux user_email variable;
-  const userEmail = "porracara@gmail.com";
+  const user = useSelector((state: UserReducer) => state.user);
+
+  const userEmail = user.user_email;
+
+  console.log(userEmail);
 
   const getData = async () => {
     const res = await axios.get("http://localhost:8000/todos/" + userEmail);

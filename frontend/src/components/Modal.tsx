@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Button } from "@fluentui/react-components";
 
 import CreateTodo from "./CreateTodo";
-import CloseIcon from "./icons/closeIcon";
+import CloseIcon from "../utils/icons/closeIcon";
 import styles from "./css/Modal.module.css";
 
 import { StateUpdatersContext } from "./MainPanel";

@@ -6,6 +6,8 @@ import TodoListInterface from "../utils/TodoListInterface";
 import styles from "./css/CreateTodo.module.css";
 import { Label, Input, Button, Slider } from "@fluentui/react-components";
 
+import { UserReducer } from "../app/store";
+
 import {
   Todo,
   EditContext,
@@ -15,17 +17,19 @@ import {
 // Edit type changing
 
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export default function CreateTodo({
   mode,
   getData,
 }: // todo,
-  {
-    mode: "create" | "edit";
-    getData: () => Promise<void>;
-    // todo?: TodoListInterface;
-  }) {
+{
+  mode: "create" | "edit";
+  getData: () => Promise<void>;
+  // todo?: TodoListInterface;
+}) {
   const { setVisible } = useContext(StateUpdatersContext);
+  const user = useSelector((state: UserReducer) => state.user);
 
   const editData = useContext(EditContext);
 
@@ -37,10 +41,7 @@ export default function CreateTodo({
     progress: editData?.progress,
   };
 
-  console.log(todo);
-
-  // Provided by Redux
-  const userEmail = "porracara@gmail.com";
+  const userEmail = user.user_email;
 
   const [title, setTitle] = useState<any>(mode === "edit" ? todo?.title : "");
   const [description, setDescription] = useState<any>(

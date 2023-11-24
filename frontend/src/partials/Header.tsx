@@ -7,28 +7,31 @@ import styles from "./Header.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { logOutUser } from "../app/user/userSlice";
 import { LoginContext } from "../utils/Context";
+import { UserReducer } from "../app/store";
 
-// logged in ? avatar : '';
-
+import { Image } from "@fluentui/react-components";
 
 const Header: FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+
+  const { user } = useSelector((state: UserReducer) => state);
+
+  console.log(user);
 
   const { loggedIn } = useContext(LoginContext);
 
   const handleLogOut = () => {
     dispatch(logOutUser());
-    console.log(user);
-    console.log(user.username);
   };
 
   return (
     <header className={styles.header}>
       <Link to="/">
-        <h1 className={styles.title}>DirectX Todos</h1>
+        <h1 className={styles.title}>
+          <Image src="/directx.svg" width={35} height={35}></Image>
+        </h1>
       </Link>
-      <div>
+      <div className={styles["right-header"]}>
         {loggedIn ? (
           <DefaultButton className={styles.btn} onClick={handleLogOut}>
             Log Out
@@ -43,16 +46,20 @@ const Header: FC = () => {
             </Link>
           </>
         )}
+        {/* TODO: Dropdown menu instead of a logout button */}
         {loggedIn ? (
-          <Link to="/profile">
-            <Avatar
-              name="guest"
-              className={styles.avatar}
-              image={{
-                src: "https://i.pinimg.com/564x/28/8f/b6/288fb60866ff176876fbc3f4304f318f.jpg",
-              }}
-            />
-          </Link>
+          <div className={styles["profile"]}>
+            <p>{user.username}</p>
+            <Link to="/profile">
+              <Avatar
+                name="guest"
+                className={styles.avatar}
+                image={{
+                  src: "https://i.pinimg.com/564x/28/8f/b6/288fb60866ff176876fbc3f4304f318f.jpg",
+                }}
+              />
+            </Link>
+          </div>
         ) : null}
       </div>
     </header>

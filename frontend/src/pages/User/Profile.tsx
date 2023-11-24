@@ -1,9 +1,10 @@
 import { FC } from "react";
 
 import { useSelector } from "react-redux";
+import { UserReducer } from "../../app/store";
 
 const Profile: FC = () => {
-  const user = useSelector(state => state.user);
+  const { user } = useSelector((state: UserReducer) => state);
 
   return(
     <section style={{ display: 'flex', flexDirection: "column", gap: '1rem' }}>
