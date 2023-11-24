@@ -31,6 +31,9 @@ const StateUpdatersContext = createContext<Context | undefined | any>(
   undefined
 );
 
-const LoginContext = createContext<Logged | undefined>(undefined);
+const LoginContext = createContext<Logged>({
+  loggedIn: false,
+  setLoggedIn: () => {}
+});
 
 export { EditContext, StateUpdatersContext, LoginContext };

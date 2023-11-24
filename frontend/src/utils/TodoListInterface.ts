@@ -5,6 +5,6 @@ export default interface TodoListInterface {
   title: string;
   description: string;
   progress: number;
-  user_email: string;
+  user_email: string | null;
   date?: string;
 }
