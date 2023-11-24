@@ -28,7 +28,11 @@ body, html {
 
 #root .fluent {
   min-height: 100vh;
-} 
+}
+
+.application {
+  min-height: 100vh;
+}
 
 .main-wrapper {
   display: flex;
