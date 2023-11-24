@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import { Button, Checkbox } from "@fluentui/react-components";
 import { DeleteRegular, EditRegular } from "@fluentui/react-icons";
@@ -30,16 +30,13 @@ export default function TodoList({
   const { visible, getData, setVisible, mode, setMode } =
     useContext(StateUpdatersContext);
 
+  // TODO: REMAKE EDIT FUNCTIONALITY
   const [editData, setEditData] = useState<Todo>({
     id,
     title,
     description,
     progress,
   });
-
-  useEffect(() => {
-    setEditData({id, title, description, progress});
-  }, [description, editData, id, progress, title]);
 
   const handleDelete = async () => {
     const result = await axios.delete("http://localhost:8000/todos/" + id);
@@ -53,6 +50,7 @@ export default function TodoList({
   };
 
   const handleEdit = () => {
+    setEditData({id, title, description, progress});
     setMode("edit");
     setVisible(true);
   };
