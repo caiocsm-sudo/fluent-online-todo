@@ -6,6 +6,7 @@ import { UserReducer } from "../../app/store";
 const Profile: FC = () => {
   const { user } = useSelector((state: UserReducer) => state);
 
+  // later visual refactor
   return(
     <section style={{ display: 'flex', flexDirection: "column", gap: '1rem' }}>
       <h1 style={{ fontSize: "2rem"}}>This is your profile</h1>
