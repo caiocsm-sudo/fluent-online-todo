@@ -48,7 +48,6 @@ exports.logInUser = async (req, res) => {
 
     console.log("user -> " + user.errors + "\nlogged -> " + logged.errors);
 
-    // errors array being used for the first time
     if (logged.errors.length >= 1) throw new Error(user.errors);
 
     res.status(200).json({
@@ -59,6 +58,17 @@ exports.logInUser = async (req, res) => {
     res.json({
       status: "fail",
       error: `${error.toString().slice(7)}`,
+    });
+  }
+};
+
+exports.setUserImage = async (req, res) => {
+  try {
+    const { userImage } = req.body;
+  } catch (error) {
+    res.send({
+      status: "fail",
+      message: error,
     });
   }
 };
