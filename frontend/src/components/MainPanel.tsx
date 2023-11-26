@@ -13,14 +13,10 @@ import TodoListInterface from "../utils/TodoListInterface";
 import { StateUpdatersContext } from '../utils/Context';
 import { UserReducer } from "../app/store";
 
-// only imported because of getData function
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 export const MainPanel = () => {
-  // higher level of abstraction = make it global with useContext instead of Redux
-  // at least, i think it's better for this type of data.
-
   // States
   const [todos, setTodos] = useState<TodoListInterface[] | Array<any>>([]);
   const [mode, setMode] = useState<"create" | "edit" | undefined>();

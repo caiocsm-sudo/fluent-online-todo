@@ -9,8 +9,6 @@ import { Label, Input, Button, Slider } from "@fluentui/react-components";
 import { UserReducer } from "../app/store";
 
 import {
-  Todo,
-  EditContext,
   StateUpdatersContext /* EditContext */,
 } from "../utils/Context";
 
@@ -22,26 +20,17 @@ import { useSelector } from "react-redux";
 export default function CreateTodo({
   mode,
   getData,
-}: // todo,
+}:
 {
   mode: "create" | "edit";
   getData: () => Promise<void>;
-  // todo?: TodoListInterface;
 }) {
   const { setVisible } = useContext(StateUpdatersContext);
   const user = useSelector((state: UserReducer) => state.user);
-
-  const editData = useContext(EditContext);
-
-  // placeholder for useContext EditTodo
-  const todo: Todo = {
-    id: editData?.id,
-    title: editData?.title,
-    description: editData?.description,
-    progress: editData?.progress,
-  };
-
   const userEmail = user.user_email;
+ 
+  // almost implemented. Missing: set editing todo
+  const todo = useSelector((state: UserReducer) => state.todo);
 
   const [title, setTitle] = useState<any>(mode === "edit" ? todo?.title : "");
   const [description, setDescription] = useState<any>(

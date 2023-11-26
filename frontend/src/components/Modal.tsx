@@ -18,7 +18,6 @@ export default function Modal() {
           icon={<CloseIcon />}
           onClick={() => setVisible(false)}
         />
-        {/* Will recieve a form for each option -> create todo, login, signup */}
         <CreateTodo mode={mode} getData={getData} />
       </div>
     </div>
