@@ -1,5 +1,14 @@
 import { FC, useState } from "react";
-import { Button, Divider } from "@fluentui/react-components";
+import {
+  Button,
+  Divider,
+  useId,
+  Toast,
+  Toaster,
+  ToastTitle,
+  useToastController,
+  ToastIntent
+} from "@fluentui/react-components";
 
 import styles from "./css/Login.module.css";
 
@@ -8,10 +17,11 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser, logOutUser } from "../../app/user/userSlice";
+import { addUser } from "../../app/user/userSlice";
 
 import Login from "./login/Login";
 import Register from "./register/Register";
+import { UserReducer } from "../../app/store";
 
 type UserLogin = { email: string; password: string };
 type UserRegister = { username: string; email: string; password: string };
@@ -21,14 +31,29 @@ const Authentication: FC = () => {
   const { mode } = useParams();
   const modeText = mode === "login" ? "Login" : "Sign Up";
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: UserReducer) => state.user);
 
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  // simple error handling
   const [serverMessage, setServerMessage] = useState<string>("");
+  const [ intent, setIntent ] = useState<ToastIntent>("info");
+
+  const toasterId = useId("toaster");
+  const { dispatchToast } = useToastController(toasterId);
+
+  const notify = (message: string) => {
+    return dispatchToast(
+      <Toast>
+        <ToastTitle>{message}</ToastTitle>
+      </Toast>,
+      { intent: intent }
+    );
+  };
 
   const [, /* cookies */ setCookies /* removeCookies */] = useCookies();
 
@@ -62,8 +87,6 @@ const Authentication: FC = () => {
 
       const result = await requestFunction("login", { email, password });
 
-      setServerMessage(result.data.status);
-
       if (result.data.status === "success") {
         const loggedUser = result.data.data.user;
 
@@ -72,16 +95,26 @@ const Authentication: FC = () => {
           loggedUser.user_email,
           loggedUser.id
         );
+
         setCookies("token", result.data.accessToken);
+        setIntent("success");
+        setServerMessage(result.data.status);
 
         navigate("/");
       } else {
-        setServerMessage("Incorrect user or password");
+        console.log(result);
+        setServerMessage(result.data.error);
+        setIntent("error");
       }
       emptyFiels();
     } else {
-      alert("Please enter both username and password.");
+      setServerMessage("Please enter both username and password.");
+      setIntent("error");
     }
+
+    console.log("tas chegando aqui?");
+    
+    notify(serverMessage);
   };
 
   const handleRegister = async () => {
@@ -94,9 +127,12 @@ const Authentication: FC = () => {
       console.log(result);
 
       if (result.data.status === "success") emptyFiels();
-
       setServerMessage(result.data.message);
     }
+
+    console.log("e aqui?");
+
+    notify(serverMessage);
   };
 
   return (
@@ -131,28 +167,27 @@ const Authentication: FC = () => {
             >
               {modeText}
             </Button>
+            <Button
+              onClick={() => notify(serverMessage)}
+            >
+              Show Modal
+            </Button>
           </div>
           <div className={styles["oauth-options"]}>
             <div>
               <Divider>Or Sign In with</Divider>
             </div>
-            <div
-              style={{
-                textAlign: "center",
-                fontSize: "0.7rem",
-                margin: "1rem 0 0 0",
-              }}
-            >
-              {serverMessage}
-            </div>
-            <div>
-              <Button onClick={() => dispatch(logOutUser())}>
-                log out for testing
-              </Button>
-            </div>
+            <div></div>
+            {/* <div> Old logout button for testing </div> */}
           </div>
         </form>
       </div>
+      <Toaster
+        toasterId={toasterId}
+        position="bottom-end"
+        pauseOnHover
+        timeout={1000}
+      />
     </div>
   );
 };

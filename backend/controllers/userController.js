@@ -12,6 +12,7 @@ exports.registerUser = async (req, res) => {
   try {
     console.table({ username, user_email, password });
 
+    // @params string {username, userEmail, password};
     const user = new User(username, user_email, password);
 
     const result = user.register();
@@ -37,7 +38,6 @@ exports.registerUser = async (req, res) => {
 
 exports.logInUser = async (req, res) => {
   const { email, password } = req.body;
-
   try {
     console.table({ email, password });
     const user = new User("", email, password);
@@ -56,9 +56,7 @@ exports.logInUser = async (req, res) => {
       data: { user, accessToken },
     });
   } catch (error) {
-    console.log(error.toString().slice(7));
-
-    res.status(404).json({
+    res.json({
       status: "fail",
       error: `${error.toString().slice(7)}`,
     });

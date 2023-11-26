@@ -12,6 +12,7 @@ import { LoginContext } from "./utils/Context";
 import HomePage from "./components/non-logged/HomePage";
 
 const App: FC = () => {
+  // Type state later
   const user = useSelector((state) => state.user);
 
   const [loggedIn, setLoggedIn] = useState<boolean>(false);

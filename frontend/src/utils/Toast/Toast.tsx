@@ -29,7 +29,7 @@ const Toasty: FC<ToastyProps> = ({ message }: ToastyProps) => {
     <>
       <Toaster
         toasterId={toasterId}
-        position="top-end"
+        position="bottom-end"
         pauseOnHover
         pauseOnWindowBlur
         timeout={1000}
