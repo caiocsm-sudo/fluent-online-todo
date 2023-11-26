@@ -10,16 +10,20 @@ import Profile from "./pages/User/Profile";
 import { useSelector } from "react-redux";
 import { LoginContext } from "./utils/Context";
 import HomePage from "./components/non-logged/HomePage";
+import { UserReducer } from "./app/store";
 
 const App: FC = () => {
-  // Type state later
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: UserReducer) => state.user);
 
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     setLoggedIn(user.user_email ? true : false);
   }, [user]);
+
+  const isAuthenticated = () => {
+    return user.user_email ? true : false;
+  };
 
   return (
     <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
@@ -30,7 +34,11 @@ const App: FC = () => {
             <Routes>
               <Route path="/" Component={loggedIn ? MainPanel : HomePage} />
               <Route path="/login/:mode" Component={Authentication} />
-              <Route path="/profile" Component={Profile} />
+              {isAuthenticated() ? (
+                <Route path="/profile" Component={Profile} />
+              ) : (
+                ""
+              )}
             </Routes>
           </main>
         </div>
