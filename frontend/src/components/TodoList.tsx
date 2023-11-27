@@ -10,6 +10,9 @@ import Modal from "./Modal";
 import styles from "./css/TodoList.module.css";
 
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { UserReducer } from "../app/store";
+import { setEditingTodo } from "../app/todos/todoSlice";
 
 type Id = string | undefined;
 
@@ -24,37 +27,21 @@ export default function TodoList({
   description: string;
   progress: number;
 }) {
-  // useContext
+  const dispatch = useDispatch();
   const { visible, getData, setVisible, mode, setMode } =
     useContext(StateUpdatersContext);
 
-  // TODO: REMAKE EDIT FUNCTIONALITY
-  // const [editData, setEditData] = useState<Todo>({
-  //   id,
-  //   title,
-  //   description,
-  //   progress,
-  // });
-
-  const passIdDownwards = async (id: Id) => {
-    const result = await axios.get(`http://localhost:8000/todo/${id}`);
-
-    console.log(result);
-  };
 
   const handleDelete = async () => {
     const result = await axios.delete("http://localhost:8000/todos/" + id);
     console.log(result.data);
 
-    if (result.data.status === "success") {
-      getData();
-    } else {
-      console.log(result.data.data.detail);
-    }
+    if (result.data.status === "success") getData();
+    else console.log(result.data.detail);
   };
 
   const handleEdit = () => {
-    passIdDownwards(id);
+    dispatch(setEditingTodo({id, title, description, progress}));
     setMode("edit");
     setVisible(true);
   };
