@@ -8,11 +8,7 @@ import { Label, Input, Button, Slider } from "@fluentui/react-components";
 
 import { UserReducer } from "../app/store";
 
-import {
-  StateUpdatersContext /* EditContext */,
-} from "../utils/Context";
-
-// Edit type changing
+import { StateUpdatersContext } from "../utils/Context";
 
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -20,15 +16,14 @@ import { useSelector } from "react-redux";
 export default function CreateTodo({
   mode,
   getData,
-}:
-{
+}: {
   mode: "create" | "edit";
   getData: () => Promise<void>;
 }) {
   const { setVisible } = useContext(StateUpdatersContext);
   const user = useSelector((state: UserReducer) => state.user);
   const userEmail = user.user_email;
- 
+
   // almost implemented. Missing: set editing todo
   const todo = useSelector((state: UserReducer) => state.todo);
 
@@ -39,6 +34,8 @@ export default function CreateTodo({
   const [progress, setProgress] = useState<any>(
     mode === "edit" ? todo?.progress : 50
   );
+
+  // TODO: input validation
 
   const handleCreate = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
@@ -55,8 +52,6 @@ export default function CreateTodo({
     if (!title || !progress || !description) return;
 
     const data = await axios.post("http://localhost:8000/todos", todo);
-
-    console.log("chegou");
 
     if (data.status === 200) {
       getData();

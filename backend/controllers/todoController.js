@@ -1,10 +1,8 @@
 const pool = require("../database/db");
 const { v4: uuidv4 } = require("uuid");
 
-// Home route
-
 exports.home = (req, res) => {
-  res.json("se foder né não c.h.i.");
+  res.json("DirectX Todos official backend");
 };
 
 exports.getTodoByID = async (req, res) => {
