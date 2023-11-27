@@ -1,14 +1,5 @@
 import { FC, useState } from "react";
-import {
-  Button,
-  Divider,
-  useId,
-  Toast,
-  Toaster,
-  ToastTitle,
-  useToastController,
-  ToastIntent
-} from "@fluentui/react-components";
+import { Button, Divider } from "@fluentui/react-components";
 
 import styles from "./css/Login.module.css";
 
@@ -26,6 +17,10 @@ import { UserReducer } from "../../app/store";
 type UserLogin = { email: string; password: string };
 type UserRegister = { username: string; email: string; password: string };
 
+// TODO: Remove register and login components, transform it all in one single form
+// but with two buttons, register and login. Then, username and user image will be
+// added right after the registering, just like other apps i've seen;
+
 const Authentication: FC = () => {
   const navigate = useNavigate();
   const { mode } = useParams();
@@ -41,21 +36,8 @@ const Authentication: FC = () => {
 
   // simple error handling
   const [serverMessage, setServerMessage] = useState<string>("");
-  const [ intent, setIntent ] = useState<ToastIntent>("info");
 
-  const toasterId = useId("toaster");
-  const { dispatchToast } = useToastController(toasterId);
-
-  const notify = (message: string) => {
-    return dispatchToast(
-      <Toast>
-        <ToastTitle>{message}</ToastTitle>
-      </Toast>,
-      { intent: intent }
-    );
-  };
-
-  const [, /* cookies */ setCookies /* removeCookies */] = useCookies();
+  const [, setCookies ] = useCookies();
 
   const emptyFiels = () => {
     setUsername("");
@@ -83,8 +65,6 @@ const Authentication: FC = () => {
 
   const handleLogin = async () => {
     if (email && password) {
-      // TODO: Send the error message from server to client
-
       const result = await requestFunction("login", { email, password });
 
       if (result.data.status === "success") {
@@ -97,24 +77,16 @@ const Authentication: FC = () => {
         );
 
         setCookies("token", result.data.accessToken);
-        setIntent("success");
         setServerMessage(result.data.status);
 
         navigate("/");
       } else {
-        console.log(result);
         setServerMessage(result.data.error);
-        setIntent("error");
       }
       emptyFiels();
     } else {
       setServerMessage("Please enter both username and password.");
-      setIntent("error");
     }
-
-    console.log("tas chegando aqui?");
-    
-    notify(serverMessage);
   };
 
   const handleRegister = async () => {
@@ -128,11 +100,9 @@ const Authentication: FC = () => {
 
       if (result.data.status === "success") emptyFiels();
       setServerMessage(result.data.message);
+    } else {
+      setServerMessage("Please, fill all the fields before submitting");
     }
-
-    console.log("e aqui?");
-
-    notify(serverMessage);
   };
 
   return (
@@ -167,27 +137,16 @@ const Authentication: FC = () => {
             >
               {modeText}
             </Button>
-            <Button
-              onClick={() => notify(serverMessage)}
-            >
-              Show Modal
-            </Button>
           </div>
           <div className={styles["oauth-options"]}>
             <div>
               <Divider>Or Sign In with</Divider>
             </div>
-            <div></div>
+            <div>{serverMessage}</div>
             {/* <div> Old logout button for testing </div> */}
           </div>
         </form>
       </div>
-      <Toaster
-        toasterId={toasterId}
-        position="bottom-end"
-        pauseOnHover
-        timeout={1000}
-      />
     </div>
   );
 };
