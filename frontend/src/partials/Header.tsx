@@ -13,11 +13,7 @@ import { Image } from "@fluentui/react-components";
 
 const Header: FC = () => {
   const dispatch = useDispatch();
-
   const { user } = useSelector((state: UserReducer) => state);
-
-  console.log(user);
-
   const { loggedIn } = useContext(LoginContext);
 
   const handleLogOut = () => {
@@ -31,7 +27,10 @@ const Header: FC = () => {
           <Image src="/directx.svg" width={35} height={35}></Image>
         </h1>
       </Link>
-      <div className={styles["right-header"]}>
+      <div
+        style={loggedIn ? { flexDirection: "row-reverse", gap: "0.7rem" } : {}}
+        className={styles["right-header"]}
+      >
         {loggedIn ? (
           <DefaultButton className={styles.btn} onClick={handleLogOut}>
             Log Out
@@ -49,7 +48,6 @@ const Header: FC = () => {
         {/* TODO: Dropdown menu instead of a logout button */}
         {loggedIn ? (
           <div className={styles["profile"]}>
-            <p>{user.username}</p>
             <Link to="/profile">
               <Avatar
                 name="guest"
@@ -59,6 +57,7 @@ const Header: FC = () => {
                 }}
               />
             </Link>
+            <p>{user.username}</p>
           </div>
         ) : null}
       </div>
