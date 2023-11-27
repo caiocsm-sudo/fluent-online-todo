@@ -39,9 +39,10 @@ a chat, user comments, realtime collaboration
 | =================================================================================================
 
 
-TODOS: JWT and Cookies, Registering the user, Log in the user, Log out the user;
-
-small problems: storing the user in the database by registering;
+TODOS: JWT and Cookies;
+TODOS: Set user image, create the todoBoard, Todo pagination, new page: set username and image page.
+TODOS: Sequelize backend; 
+TODOS: sei la agora;
 
 LATER_TODOS: Extend the application to handle realtime collaboration with many members, such as inviting, admin, removing user and etc;
-LATER_THAN_LATER: UI COMPLETE REDESIGN WITH FLUENT
+LATER_THAN_LATER: UI COMPLETE REDESIGN WITH FLUENT (or without it)
