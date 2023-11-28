@@ -6,6 +6,8 @@ one todo "room". They can be invited through an token and join the team. Just li
 
 a chat, user comments, realtime collaboration
 
+vou mudar a porra do nome desse aplicativo... ta ridículo essa merda
+
 ===================================================================================================
 | 
 | Title | -------------------------------------------------------- | Log In | | Sign In |  Avatar

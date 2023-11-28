@@ -10,8 +10,7 @@ import Modal from "./Modal";
 import styles from "./css/TodoList.module.css";
 
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { UserReducer } from "../app/store";
+import { useDispatch } from "react-redux";
 import { setEditingTodo } from "../app/todos/todoSlice";
 
 type Id = string | undefined;

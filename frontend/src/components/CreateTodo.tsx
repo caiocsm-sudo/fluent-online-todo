@@ -24,7 +24,6 @@ export default function CreateTodo({
   const user = useSelector((state: UserReducer) => state.user);
   const userEmail = user.user_email;
 
-  // almost implemented. Missing: set editing todo
   const todo = useSelector((state: UserReducer) => state.todo);
 
   const [title, setTitle] = useState<any>(mode === "edit" ? todo?.title : "");

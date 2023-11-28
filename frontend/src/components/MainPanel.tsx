@@ -10,24 +10,20 @@ import styles from "./css/MainPanel.module.css";
 import TodoList from "./TodoList";
 import Modal from "./Modal";
 import TodoListInterface from "../utils/TodoListInterface";
-import { StateUpdatersContext } from '../utils/Context';
+import { StateUpdatersContext } from "../utils/Context";
 import { UserReducer } from "../app/store";
 
 import axios from "axios";
 import { useSelector } from "react-redux";
 
 export const MainPanel = () => {
-  // States
   const [todos, setTodos] = useState<TodoListInterface[] | Array<any>>([]);
   const [mode, setMode] = useState<"create" | "edit" | undefined>();
   const [visible, setVisible] = useState<boolean>(false);
-  // States
 
   const user = useSelector((state: UserReducer) => state.user);
 
   const userEmail = user.user_email;
-
-  console.log(userEmail);
 
   const getData = async () => {
     const res = await axios.get("http://localhost:8000/todos/" + userEmail);
@@ -62,12 +58,10 @@ export const MainPanel = () => {
       </div>
       <Divider />
 
-      {/* Context -> Todos, getData, setVisible */}
       <StateUpdatersContext.Provider
         value={{ todos, getData, visible, setVisible, mode, setMode }}
       >
-        {/* The problem is in this mode="create" */}
-        {visible && mode === 'create' && <Modal />}
+        {visible && mode === "create" && <Modal />}
         <div className={styles["todo-tasks"]}>
           <ul className={styles["todo-list"]}>
             {todos &&

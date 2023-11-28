@@ -16,6 +16,12 @@
   -webkit-text-size-adjust: 100%;
 
   --default-transition: all 300ms ease;
+
+  --primary-color: #151515;
+  --second-color: rgb(90, 125, 201);
+  --thrid-color: rgb(218, 218, 218);
+  --fourth-color: rgb(218, 218, 218);
+  --fifth-color: rgb(76, 88, 197);
 }
 
 body, html {
@@ -43,4 +49,25 @@ body, html {
 
 li {
   list-style: none;
+}
+
+.button-default-primary {
+  color: #fff;
+  padding: 0.4rem;
+  border: none;
+  outline: none;
+  background-color: var(--second-color);
+  border-radius: 0.2rem;
+  transition: all 100ms ease-in-out;
+  cursor: pointer;
+}
+
+.button-default-primary:hover {
+  background-color: var(--fifth-color);
+}
+
+.button-default-secondary {
+  padding: 0.4rem;
+  border: 1px solid rgba(15, 15, 15, 0.356);
+  border-radius: 0.2rem;
 }

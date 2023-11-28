@@ -11,12 +11,16 @@ import { UserReducer } from "../app/store";
 
 import { Image } from "@fluentui/react-components";
 
+import { useCookies } from "react-cookie";
+
 const Header: FC = () => {
+  const [, , removeCookies] = useCookies();
   const dispatch = useDispatch();
   const { user } = useSelector((state: UserReducer) => state);
   const { loggedIn } = useContext(LoginContext);
 
   const handleLogOut = () => {
+    removeCookies("token");
     dispatch(logOutUser());
   };
 

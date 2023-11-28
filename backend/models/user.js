@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 const pool = require("../database/db");
 const uuid = require("uuid");
+const sequelize = require("../models");
 
 class User {
   constructor(username, user_email, password) {

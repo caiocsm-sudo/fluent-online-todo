@@ -3,8 +3,6 @@ import { Button, Divider } from "@fluentui/react-components";
 
 import styles from "./css/Login.module.css";
 
-import axios from "axios";
-
 import { useParams, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,9 +15,11 @@ import { UserReducer } from "../../app/store";
 type UserLogin = { email: string; password: string };
 type UserRegister = { username: string; email: string; password: string };
 
-// TODO: Remove register and login components, transform it all in one single form
-// but with two buttons, register and login. Then, username and user image will be
-// added right after the registering, just like other apps i've seen;
+import axios from "axios";
+
+// TODO: Remove register and login components, transform it all in one single
+// form but with two buttons, register and login. Then, username and user image
+// will be added right after the registering, just like other apps i've seen;
 
 const Authentication: FC = () => {
   const navigate = useNavigate();
@@ -34,10 +34,9 @@ const Authentication: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  // simple error handling
   const [serverMessage, setServerMessage] = useState<string>("");
 
-  const [, setCookies ] = useCookies();
+  const [cookies, setCookies] = useCookies();
 
   const emptyFiels = () => {
     setUsername("");
@@ -76,8 +75,10 @@ const Authentication: FC = () => {
           loggedUser.id
         );
 
-        setCookies("token", result.data.accessToken);
-        setServerMessage(result.data.status);
+        setCookies("token", result.data.data.accessToken);
+
+        console.log("this is the token: ", result.data.data.accessToken);
+        console.log(cookies);
 
         navigate("/");
       } else {
@@ -110,7 +111,7 @@ const Authentication: FC = () => {
       <div className={styles["login-form"]}>
         <form method="post">
           <div className={styles["conventional-login"]}>
-            <h2>{modeText}</h2>
+            <h2 style={{ textAlign: "initial" }}>{modeText}</h2>
             {modeText === "Login" ? (
               <Login
                 username={username}
@@ -142,7 +143,9 @@ const Authentication: FC = () => {
             <div>
               <Divider>Or Sign In with</Divider>
             </div>
-            <div>{serverMessage}</div>
+            <div style={{ color: "#e0333e", textAlign: "center" }}>
+              {serverMessage}
+            </div>
             {/* <div> Old logout button for testing </div> */}
           </div>
         </form>

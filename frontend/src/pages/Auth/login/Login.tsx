@@ -17,15 +17,16 @@ const Login: FC<CreateAndLogUser> = ({
         <Input
           type="text"
           value={email}
+          placeholder="Enter your email"
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <br />
       <div>
         <Label>Password:</Label>
         <Input
           type="password"
           value={password}
+          placeholder="Enter your password"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
